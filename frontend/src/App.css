@@ -1,1 +1,64 @@
 @import "tailwindcss";
+
+/* #4B36C9 */
+/* #7F22FE*/
+
+@theme {
+  /* Primary */
+  --color-primary: #7f22fe;
+  /* --color-primary: #8b5cf6; */
+  --color-primary-hover: #5b35c7;
+  --color-primary-light: #f3efff;
+
+  /* Background */
+  --color-bg: #fcfcfc;
+  --color-bg-soft: #f8f9fa;
+  --color-bg-hover: #f1f3f5;
+
+  /* Borders */
+  --color-border: #e5e7eb;
+  --color-border-strong: #d1d5db;
+
+  /* Text */
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+}
+
+.dark {
+  /*  DARK MODE */
+  --color-primary: #7f22fe;
+  --color-primary-hover: #7c3aed;
+  --color-primary-light: rgba(139, 92, 246, 0.15);
+
+  /* Background */
+  /* --color-bg: #212121; */
+  --color-bg: #050816;
+  /* bg-[#050816] */
+  --color-bg-soft: #0f1621;
+  --color-bg-hover: #303030;
+
+  /* Borders */
+  --color-border: #1f2937;
+  --color-border-strong: #374151;
+
+  /* Text */
+  --color-text: #f9fafb;
+  --color-text-muted: #9ca3af;
+
+  /* Status */
+  --color-success: #22c55e;
+  --color-danger: #f87171;
+}
+
+/* Testing purpose  */
+.yoki {
+  @apply border border-red-500;
+}
+
+.yokii {
+  @apply border border-blue-500;
+}
+
+.yokiii {
+  @apply border border-green-500;
+}
