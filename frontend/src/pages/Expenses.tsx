@@ -1,4 +1,5 @@
 import { IoArrowBackSharp } from "react-icons/io5";
+import { LiaRupeeSignSolid } from "react-icons/lia";
 
 const Expenses = () => {
   return (
@@ -30,6 +31,79 @@ const Expenses = () => {
             YokiSpend
           </button>
         </div>
+
+        {/* User Transaction Details  */}
+        <section>
+          <div className="mt-3">
+            <h3 className="text-base font-semibold text-text-muted">Amount</h3>
+
+            <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
+              <LiaRupeeSignSolid size={20} />
+              <input
+                type="number"
+                className="w-full text-base font-medium outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="mt-3">
+            <h3 className="text-base font-semibold text-text-muted">
+              Category
+            </h3>
+
+            <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
+              <LiaRupeeSignSolid size={20} />
+              <input
+                type="number"
+                className="w-full text-base font-medium outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="mt-3">
+            <h3 className="text-base font-semibold text-text-muted">Date</h3>
+
+            <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
+              <LiaRupeeSignSolid size={20} />
+              <input
+                type="number"
+                className="w-full text-base font-medium outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="mt-3">
+            <h3 className="text-base font-semibold text-text-muted">
+              Payment Method
+            </h3>
+
+            <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
+              <LiaRupeeSignSolid size={20} />
+              <input
+                type="number"
+                className="w-full text-base font-medium outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="mt-3">
+            <h3 className="text-base font-semibold text-text-muted">
+              Notes (Optional)
+            </h3>
+
+            <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
+              <LiaRupeeSignSolid size={20} />
+              <input
+                type="number"
+                className="w-full text-base font-medium outline-none"
+              />
+            </div>
+          </div>
+
+          <button className="mt-3 w-full p-2 bg-primary text-text rounded-md">
+            Save Expense
+          </button>
+        </section>
       </section>
     </>
   );
