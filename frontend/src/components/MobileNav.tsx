@@ -24,12 +24,16 @@ export const MobileBottomNav = () => {
 
         <Link to="/expenses">
           {/* Floating Button */}
-          <div className="absolute left-1/2 -translate-x-1/2 -top-5 flex flex-col items-center">
+          <div className="absolute left-1/2 -translate-x-1/2 -top-6 flex flex-col items-center">
             <div className="rounded-full bg-white text-[#558B2F] flex items-center justify-center shadow-lg cursor-pointer">
-              <RiMoneyRupeeCircleFill size={50} />
+              <RiMoneyRupeeCircleFill size={55} />
             </div>
 
-            <h2 className="mt-3 text-sm font-medium">Add expenses</h2>
+            <h2 className="mt-2 text-sm font-medium">Add expenses</h2>
+            <span className="text-xs text-text-muted">
+              <span className="text-green-600">Earn</span> /
+              <span className="text-red-400"> Spend</span>
+            </span>
           </div>
         </Link>
 
