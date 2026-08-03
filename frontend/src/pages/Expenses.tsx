@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { IoArrowBackSharp } from "react-icons/io5";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { BiSolidBellPlus, BiSolidBellMinus } from "react-icons/bi";
@@ -7,12 +8,100 @@ import { FaAmazonPay } from "react-icons/fa6";
 import { CgNotes } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
 
+//types
+type TransactionMode = "income" | "expense";
+
+type TransactionType = {
+  id: number;
+  type: TransactionMode;
+  amount: string;
+  category: string;
+  date: string;
+  payment: string;
+  notes: string;
+};
+
+//Page starts
 const Expenses = () => {
   const navigate = useNavigate();
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const [transactionType, setTransactionType] =
+    useState<TransactionMode>("expense");
+
+  const [formData, setFormData] = useState({
+    amount: "",
+    category: "",
+    date: today,
+    payment: "",
+    notes: "",
+  });
+
+  //datas
+  const expenseCategories = [
+    "Dress 👕",
+    "Petrol / Diesel ⛽",
+    "Food & Snacks 🍔",
+    "Online Shopping 🛒",
+    "Bills 💡",
+    "Entertainment - Movie 🎬",
+    "Travel 🚕",
+    "Medical 💊",
+  ];
+
+  const incomeCategories = [
+    "Salary 💼",
+    "Gift 🎁",
+    "Cashback 💰",
+    "Bonus 🪙",
+    "Business 📈",
+    "Investment 💹",
+    "Interest 🏦",
+    "Freelancing 🧑‍💻",
+  ];
+
+  const categories =
+    transactionType === "expense" ? expenseCategories : incomeCategories;
+
+  const payments = ["Cash in hand", "Google Pay - GPay", "PhonePe"];
+
+  //function
+  const handleSave = () => {
+    if (!formData.amount || !formData.category || !formData.payment) {
+      alert("Please fill all required fields");
+      return;
+    }
+
+    const transaction = {
+      id: Date.now(),
+      type: transactionType,
+      ...formData,
+    };
+
+    const existing: TransactionType[] = JSON.parse(
+      localStorage.getItem("transactions") ?? "[]",
+    );
+
+    existing.push(transaction);
+
+    localStorage.setItem("transactions", JSON.stringify(existing));
+
+    alert("Transaction Saved");
+
+    setFormData({
+      amount: "",
+      category: "",
+      payment: "",
+      notes: "",
+      date: today,
+    });
+  };
+
   return (
     <>
       <section className="">
-        {/* Top Header  */}
+        {/* 1. Top Header  */}
         <div className="grid grid-cols-3 items-center">
           <button
             onClick={() => navigate("/")}
@@ -33,83 +122,160 @@ const Expenses = () => {
           <div></div>
         </div>
 
-        {/* Earn & Spend button */}
+        {/* 2. Earn & Spend button */}
         <div className="w-full pt-3 flex items-center justify-center gap-3">
-          <button className="flex-1 px-5 py-2 flex items-center justify-center gap-1 text-white text-lg bg-green-800 font-semibold rounded-md">
+          <button
+            onClick={() => setTransactionType("income")}
+            disabled={transactionType === "expense"}
+            className={`flex-1 p-3 rounded-md text-white font-semibold transition
+        ${
+          transactionType === "income"
+            ? "bg-green-700"
+            : "bg-gray-300 cursor-not-allowed"
+        }`}
+          >
+            YokiEarn
+          </button>
+
+          <button
+            onClick={() => setTransactionType("expense")}
+            disabled={transactionType === "income"}
+            className={`flex-1 p-3 rounded-md text-white font-semibold transition
+        ${
+          transactionType === "expense"
+            ? "bg-red-700"
+            : "bg-gray-300 cursor-not-allowed"
+        }`}
+          >
+            YokiSpend
+          </button>
+
+          {/* <button className="flex-1 px-5 py-2 flex items-center justify-center gap-1 text-white text-lg bg-green-800 font-semibold rounded-md">
             <span> YokiEarn</span>
             <BiSolidBellPlus size={20} />
           </button>
           <button className="flex-1 px-5 py-2 flex items-center justify-center gap-1 text-white text-lg bg-red-800 font-semibold rounded-md">
             <span>YokiSpend</span>
             <BiSolidBellMinus size={20} />
-          </button>
+          </button> */}
         </div>
 
-        {/* User Transaction Details  */}
+        {/* 3. User Transaction Details  */}
         <section>
           <div className="mt-3">
-            <h3 className="text-base font-semibold text-text-muted">Amount</h3>
+            <h3 className="text-sm font-semibold text-text-muted">Amount</h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
               <LiaRupeeSignSolid size={20} />
               <input
                 type="number"
-                className="w-full text-base font-medium outline-none"
+                className="w-full text-lg font-normal outline-none"
+                placeholder="Enter amount"
+                value={formData.amount}
+                onChange={(e) =>
+                  setFormData({ ...formData, amount: e.target.value })
+                }
               />
             </div>
           </div>
 
           <div className="mt-3">
-            <h3 className="text-base font-semibold text-text-muted">
-              Category
-            </h3>
+            <h3 className="text-sm font-semibold text-text-muted">Category</h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
               <TbShoppingCartSearch size={20} />
+              <select
+                value={formData.category}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    category: e.target.value,
+                  })
+                }
+                className="w-full outline-none bg-transparent"
+              >
+                <option value="">Select Category</option>
+
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
           <div className="mt-3">
-            <h3 className="text-base font-semibold text-text-muted">Date</h3>
+            <h3 className="text-sm font-semibold text-text-muted">Date</h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
               <HiOutlineCalendarDateRange size={20} />
               <input
                 type="date"
-                className="w-full text-base font-medium outline-none"
+                value={formData.date}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    date: e.target.value,
+                  })
+                }
+                className="w-full outline-none"
               />
             </div>
           </div>
 
           <div className="mt-3">
-            <h3 className="text-base font-semibold text-text-muted">
+            <h3 className="text-sm font-semibold text-text-muted">
               Payment Method
             </h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
               <FaAmazonPay size={20} />
-              <input
-                type="number"
-                className="w-full text-base font-medium outline-none"
-              />
+              <select
+                value={formData.payment}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    payment: e.target.value,
+                  })
+                }
+                className="w-full outline-none bg-transparent"
+              >
+                <option value="">Choose Payment</option>
+
+                {payments.map((pay) => (
+                  <option key={pay}>{pay}</option>
+                ))}
+              </select>
             </div>
           </div>
 
           <div className="mt-3">
-            <h3 className="text-base font-semibold text-text-muted">
+            <h3 className="text-sm font-semibold text-text-muted">
               Notes (Optional)
             </h3>
 
-            <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
+            <div className="mt-2 p-2 flex items-start gap-3 border border-border rounded-md">
               <CgNotes size={20} />
-              <input
-                type="number"
-                className="w-full text-base font-medium outline-none"
+              <textarea
+                rows={3}
+                placeholder="Bought these shoes from Amazon for Daily use"
+                value={formData.notes}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    notes: e.target.value,
+                  })
+                }
+                className="w-full resize-none outline-none"
               />
             </div>
           </div>
 
-          <button className="mt-3 w-full p-2 bg-primary text-white rounded-md cursor-pointer hover:opacity-90">
+          <button
+            onClick={handleSave}
+            className="mt-3 w-full p-2 bg-primary text-white rounded-md cursor-pointer hover:opacity-90"
+          >
             Save Expense
           </button>
         </section>
