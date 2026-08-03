@@ -13,7 +13,7 @@ const Homepage = () => {
           <h2 className="text-primary text-xl font-semibold">
             Yoki<span className="text-text pl-0.5">Wallet</span>
           </h2>
-          <FcMoneyTransfer size={25} className="mt-1" />
+          <FcMoneyTransfer size={23} className="mt-1" />
         </div>
 
         <div className="px-2 py-1 text-sm flex items-center gap-2 border-2 rounded-md border-border-strong">
