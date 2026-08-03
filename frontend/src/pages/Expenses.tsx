@@ -1,13 +1,24 @@
 import { IoArrowBackSharp } from "react-icons/io5";
 import { LiaRupeeSignSolid } from "react-icons/lia";
+import { BiSolidBellPlus, BiSolidBellMinus } from "react-icons/bi";
+import { TbShoppingCartSearch } from "react-icons/tb";
+import { HiOutlineCalendarDateRange } from "react-icons/hi2";
+import { FaAmazonPay } from "react-icons/fa6";
+import { CgNotes } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
 
 const Expenses = () => {
+  const navigate = useNavigate();
   return (
     <>
-      <section className="yo">
+      <section className="">
         {/* Top Header  */}
         <div className="grid grid-cols-3 items-center">
-          <button className="justify-self-start text-text">
+          <button
+            onClick={() => navigate("/")}
+            className="p-2 justify-self-start text-text cursor-pointer border border-border rounded-full hover:bg-bg-hover"
+          >
+            {/* Back button  */}
             <IoArrowBackSharp size={20} />
           </button>
 
@@ -23,12 +34,14 @@ const Expenses = () => {
         </div>
 
         {/* Earn & Spend button */}
-        <div className="w-full pt-5 flex items-center justify-center gap-3">
-          <button className="flex-1 px-5 py-2 text-white text-lg bg-green-800 font-semibold rounded-md">
-            YokiEarn
+        <div className="w-full pt-3 flex items-center justify-center gap-3">
+          <button className="flex-1 px-5 py-2 flex items-center justify-center gap-1 text-white text-lg bg-green-800 font-semibold rounded-md">
+            <span> YokiEarn</span>
+            <BiSolidBellPlus size={20} />
           </button>
-          <button className="flex-1 px-5 py-2 text-white text-lg bg-red-800 font-semibold rounded-md">
-            YokiSpend
+          <button className="flex-1 px-5 py-2 flex items-center justify-center gap-1 text-white text-lg bg-red-800 font-semibold rounded-md">
+            <span>YokiSpend</span>
+            <BiSolidBellMinus size={20} />
           </button>
         </div>
 
@@ -52,11 +65,7 @@ const Expenses = () => {
             </h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
-              <LiaRupeeSignSolid size={20} />
-              <input
-                type="number"
-                className="w-full text-base font-medium outline-none"
-              />
+              <TbShoppingCartSearch size={20} />
             </div>
           </div>
 
@@ -64,9 +73,9 @@ const Expenses = () => {
             <h3 className="text-base font-semibold text-text-muted">Date</h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
-              <LiaRupeeSignSolid size={20} />
+              <HiOutlineCalendarDateRange size={20} />
               <input
-                type="number"
+                type="date"
                 className="w-full text-base font-medium outline-none"
               />
             </div>
@@ -78,7 +87,7 @@ const Expenses = () => {
             </h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
-              <LiaRupeeSignSolid size={20} />
+              <FaAmazonPay size={20} />
               <input
                 type="number"
                 className="w-full text-base font-medium outline-none"
@@ -92,7 +101,7 @@ const Expenses = () => {
             </h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
-              <LiaRupeeSignSolid size={20} />
+              <CgNotes size={20} />
               <input
                 type="number"
                 className="w-full text-base font-medium outline-none"
@@ -100,7 +109,7 @@ const Expenses = () => {
             </div>
           </div>
 
-          <button className="mt-3 w-full p-2 bg-primary text-text rounded-md">
+          <button className="mt-3 w-full p-2 bg-primary text-white rounded-md cursor-pointer hover:opacity-90">
             Save Expense
           </button>
         </section>
