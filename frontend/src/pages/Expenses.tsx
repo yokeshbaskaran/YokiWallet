@@ -126,28 +126,26 @@ const Expenses = () => {
         <div className="w-full pt-3 flex items-center justify-center gap-3">
           <button
             onClick={() => setTransactionType("income")}
-            disabled={transactionType === "expense"}
-            className={`flex-1 p-3 rounded-md text-white font-semibold transition
-        ${
-          transactionType === "income"
-            ? "bg-green-700"
-            : "bg-gray-300 cursor-not-allowed"
-        }`}
+            className={`flex-1 py-3 rounded-lg font-semibold flex items-center justify-center gap-1 transition-all duration-300 cursor-pointer ${
+              transactionType === "income"
+                ? "bg-green-700 text-white"
+                : "border-2 border-green-700 text-green-700 bg-white hover:bg-green-50"
+            }`}
           >
-            YokiEarn
+            <span> YokiEarn</span>
+            <BiSolidBellPlus size={20} />
           </button>
 
           <button
             onClick={() => setTransactionType("expense")}
-            disabled={transactionType === "income"}
-            className={`flex-1 p-3 rounded-md text-white font-semibold transition
-        ${
-          transactionType === "expense"
-            ? "bg-red-700"
-            : "bg-gray-300 cursor-not-allowed"
-        }`}
+            className={`flex-1 py-3 rounded-lg font-semibold flex items-center justify-center gap-1 transition-all duration-300 cursor-pointer ${
+              transactionType === "expense"
+                ? "bg-red-700 text-white"
+                : "border-2 border-red-700 text-red-700 bg-white hover:bg-red-50"
+            }`}
           >
-            YokiSpend
+            <span>YokiSpend</span>
+            <BiSolidBellMinus size={20} />
           </button>
 
           {/* <button className="flex-1 px-5 py-2 flex items-center justify-center gap-1 text-white text-lg bg-green-800 font-semibold rounded-md">
