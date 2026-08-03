@@ -30,10 +30,6 @@ export const MobileBottomNav = () => {
             </div>
 
             <h2 className="mt-2 text-sm font-medium">Add expenses</h2>
-            <span className="text-xs text-text-muted">
-              <span className="text-green-600">Earn</span> /
-              <span className="text-red-400"> Spend</span>
-            </span>
           </div>
         </Link>
 
