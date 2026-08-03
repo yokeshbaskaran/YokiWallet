@@ -20,6 +20,16 @@ const Expenses = () => {
 
           <div></div>
         </div>
+
+        {/* Earn & Spend button */}
+        <div className="w-full pt-5 flex items-center justify-center gap-3">
+          <button className="flex-1 px-5 py-2 text-white text-lg bg-green-800 font-semibold rounded-md">
+            YokiEarn
+          </button>
+          <button className="flex-1 px-5 py-2 text-white text-lg bg-red-800 font-semibold rounded-md">
+            YokiSpend
+          </button>
+        </div>
       </section>
     </>
   );
