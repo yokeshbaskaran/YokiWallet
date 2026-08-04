@@ -60,45 +60,43 @@ const AuthPage = () => {
         <p className="text-text-muted">Enter your details to login!</p>
       </div>
 
-      <div className="yoki md:w-110 mt-1 px-16 pt-8 pb-8 bg-bg-hover border border-border-strong rounded shado">
-        <div className="w-full flex flex-col">
-          <div className="flex text-text flex-col items-start gap-2">
-            <div className="w-full py-2">
-              <p className="my-2 font-medium">Username:</p>
+      <div className="w-85 md:w-120 mt-1 p-5 md:px-14 pt-8 pb-8 bg-bg-hover border border-border-strong rounded shado">
+        <div className="w-full flex text-text flex-col items-center gap-1">
+          <div className="w-full py-2">
+            <p className="my-2 font-medium">Username:</p>
 
-              <input
-                type="email"
-                className="w-full px-2 py-2 border border-primary rounded"
-                placeholder="Enter email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div className="w-full py-2">
-              <p className="my-2 font-medium">Password:</p>
-
-              <input
-                type="password"
-                className="w-full px-2 py-2 border border-primary rounded"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleUserLogin();
-                  }
-                }}
-              />
-            </div>
-
-            <button
-              onClick={handleUserLogin}
-              className="w-full h-10 mt-3 bg-primary hover:bg-primary-hover rounded text-white cursor-pointer"
-            >
-              Login
-            </button>
+            <input
+              type="email"
+              className="w-full px-2 py-2 border border-primary rounded"
+              placeholder="Enter email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
+
+          <div className="w-full py-2">
+            <p className="my-2 font-medium">Password:</p>
+
+            <input
+              type="password"
+              className="w-full px-2 py-2 border border-primary rounded"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleUserLogin();
+                }
+              }}
+            />
+          </div>
+
+          <button
+            onClick={handleUserLogin}
+            className="w-full h-10 mt-3 bg-primary hover:bg-primary-hover rounded text-white cursor-pointer"
+          >
+            Login
+          </button>
         </div>
       </div>
 

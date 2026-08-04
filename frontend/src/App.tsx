@@ -12,7 +12,7 @@ type RouteProps = { children: React.ReactNode };
 
 const ProtectedRoute = ({ children }: RouteProps) => {
   const { authUser } = useAppContext();
-  return authUser ? children : <Navigate to="/login" />;
+  return authUser ? children : <Navigate to="/auth" />;
 };
 
 const AuthRoute = ({ children }: RouteProps) => {
