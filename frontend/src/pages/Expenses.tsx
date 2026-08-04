@@ -6,7 +6,7 @@ import { TbShoppingCartSearch } from "react-icons/tb";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { FaAmazonPay } from "react-icons/fa6";
 import { CgNotes } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 
 //types
 type TransactionMode = "income" | "expense";
@@ -23,7 +23,7 @@ type TransactionType = {
 
 //Page starts
 const Expenses = () => {
-  const navigate = useNavigate();
+  const { pathToHome } = useAppContext();
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -104,7 +104,7 @@ const Expenses = () => {
         {/* 1. Top Header  */}
         <div className="grid grid-cols-3 items-center">
           <button
-            onClick={() => navigate("/")}
+            onClick={pathToHome}
             className="p-2 justify-self-start text-text cursor-pointer border border-border rounded-full hover:bg-bg-hover"
           >
             {/* Back button  */}
