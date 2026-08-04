@@ -20,6 +20,7 @@ type AppContextType = {
   pathToHome: () => void;
   authUser: AuthUser | null;
   setAuthUser: React.Dispatch<React.SetStateAction<AuthUser>>;
+  handleLogout: () => void;
 };
 
 const AppContext = createContext({} as AppContextType);
@@ -57,10 +58,15 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
   const navigate = useNavigate();
 
   //functions
-
   const pathToHome = () => {
     navigate("/");
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setAuthUser(null);
+  };
+
   const contextValues = {
     dark,
     setDark,
@@ -69,6 +75,7 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
     pathToHome,
     authUser,
     setAuthUser,
+    handleLogout,
   };
 
   return (
