@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { MdDateRange } from "react-icons/md";
+import { TbShoppingCartMinus, TbShoppingCartPlus } from "react-icons/tb";
+import Recents from "../components/Recents";
 
 const Homepage = () => {
   const [todaysDate] = useState(() => new Date());
 
   return (
-    <>
+    <main className="min-h-screen mb-20">
       {/* section1  */}
-      <div className="flex justify-between gap-2">
+      <section className="flex justify-between gap-2">
         <div className="flex items-center gap-2">
           <h2 className="text-primary text-xl font-semibold">
             Yoki<span className="text-text pl-0.5">Wallet</span>
@@ -24,23 +26,45 @@ const Homepage = () => {
             year: "numeric" as const,
           })}
         </div>
-      </div>
+      </section>
       {/* section1  */}
 
       {/* section2  */}
-      <div className="my-3 p-2 border border-border bg-bg-hover rounded-md">
+      <section className="my-3 p-2 border border-border bg-bg-hover rounded-md">
         <p className="text-text-muted">Total Balance:</p>
         <h2 className="text-2xl py-2 font-bold">Rs.1000 ₹</h2>
         {/* <p>metrics</p> */}
-      </div>
+      </section>
       {/* section2  */}
 
       {/* section3  */}
-      <div className="my-5">
-        <h2>Recent Transactions:</h2>
-      </div>
+      {/* <section className="w-full my-5">
+        <h3 className="text-text text-lg font-semibold">Quick Actions</h3>
+
+        <div className="w-full py-4 flex justify-between items-center gap-4">
+          <div className="w-full p-1 flex flex-col items-center gap-1">
+            <button className="p-3 bg-red-400 rounded-md cursor-pointer">
+              <TbShoppingCartMinus size={25} color="white" />
+            </button>
+            <h3 className="text-sm">Add Expense</h3>
+          </div>
+
+          <div className="w-full p-1 flex flex-col items-center gap-1">
+            <button className="p-3 bg-green-700 rounded-md cursor-pointer">
+              <TbShoppingCartPlus size={25} color="white" />
+            </button>
+            <h3 className="text-sm">Add Income</h3>
+          </div>
+        </div>
+      </section> */}
       {/* section3  */}
-    </>
+
+      {/* section4  */}
+      <div className="my-5">
+        <Recents />
+      </div>
+      {/* section4  */}
+    </main>
   );
 };
 
