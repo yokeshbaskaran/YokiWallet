@@ -133,7 +133,7 @@ const Expenses = () => {
 
   return (
     <>
-      <section className="min-h-screen mb-22">
+      <section className="min-h-screen mb-8">
         {/* 1. Top Header  */}
         <div className="grid grid-cols-3 items-center">
           <button
