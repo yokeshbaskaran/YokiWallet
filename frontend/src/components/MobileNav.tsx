@@ -14,7 +14,7 @@ export const MobileTopNav = () => {
 export const MobileBottomNav = () => {
   return (
     <>
-      <section className="relative p-2 flex items-center justify-between border-t border-primary h-20">
+      <section className="relative p-2 flex items-center justify-between bg-bg border-t-2 border-border h-17">
         <Link to="/">
           <div className="flex flex-col items-center text-sm font-medium cursor-pointer">
             <IoHomeOutline size={28} />
@@ -24,7 +24,7 @@ export const MobileBottomNav = () => {
 
         <Link to="/expenses">
           {/* Floating Button */}
-          <div className="absolute left-1/2 -translate-x-1/2 -top-6 flex flex-col items-center">
+          <div className="absolute left-1/2 -translate-x-1/2 -top-7 flex flex-col items-center">
             <div className="rounded-full bg-white text-[#558B2F] flex items-center justify-center shadow-lg cursor-pointer">
               <RiMoneyRupeeCircleFill size={55} />
             </div>

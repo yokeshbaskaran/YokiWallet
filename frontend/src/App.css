@@ -63,6 +63,8 @@
   @apply border border-green-500;
 }
 
+/* Hiding Settings in CSS */
+
 /* Chrome, Safari, Edge, Opera */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -75,3 +77,16 @@ input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
+
+/* Chrome, Edge */
+.custom-date::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+/* Remove clear button */
+.custom-date::-webkit-clear-button {
+  display: none;
+}
+
+/* Hiding Settings in CSS */

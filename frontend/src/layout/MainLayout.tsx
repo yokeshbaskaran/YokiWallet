@@ -4,7 +4,7 @@ import { MobileBottomNav } from "../components/MobileNav";
 const MainLayout = () => {
   return (
     <>
-      <section className="w-full max-h-screen p-2 flex flex-col items-center justify-start gap-2 yoki">
+      <section className="w-full h-screen p-2 flex flex-col items-center justify-start gap-2">
         <div className="flex-1 w-full">
           <Outlet />
         </div>

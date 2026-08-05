@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { IoArrowBackSharp } from "react-icons/io5";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { BiSolidBellPlus, BiSolidBellMinus } from "react-icons/bi";
@@ -6,19 +6,32 @@ import { TbShoppingCartSearch } from "react-icons/tb";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { FaAmazonPay } from "react-icons/fa6";
 import { CgNotes } from "react-icons/cg";
-import { useAppContext } from "../context/AppContext";
+import { API_URL, useAppContext } from "../context/AppContext";
+import axios from "axios";
 
 //types
 type TransactionMode = "income" | "expense";
 
 type TransactionType = {
-  id: number;
+  _id?: string;
   type: TransactionMode;
-  amount: string;
+  amount: number;
   category: string;
   date: string;
   payment: string;
-  notes: string;
+  notes?: string;
+};
+
+const createTransaction = async (transactionData: TransactionType) => {
+  try {
+    const response = await axios.post(API_URL + "/", transactionData);
+    console.log("Transaction created!", response);
+
+    return response.data;
+  } catch (error) {
+    console.error("Create Transaction Error:", error);
+    throw error;
+  }
 };
 
 //Page starts
@@ -26,6 +39,7 @@ const Expenses = () => {
   const { pathToHome } = useAppContext();
 
   const today = new Date().toISOString().split("T")[0];
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   const [transactionType, setTransactionType] =
     useState<TransactionMode>("expense");
@@ -38,69 +52,88 @@ const Expenses = () => {
     notes: "",
   });
 
-  //datas
+  //datas for Categories
   const expenseCategories = [
     "Dress 👕",
     "Petrol / Diesel ⛽",
     "Food & Snacks 🍔",
-    "Online Shopping 🛒",
-    "Bills 💡",
+    "Bought Accessories 🛍️",
+    "Online Web Shopping 🛒",
     "Entertainment - Movie 🎬",
+    "Amount lent 🚨",
+    "Maintenance & Repair 🧰",
+    "Bills 💡",
     "Travel 🚕",
     "Medical 💊",
+    "Others",
   ];
 
   const incomeCategories = [
     "Salary 💼",
     "Gift 🎁",
-    "Cashback 💰",
     "Bonus 🪙",
-    "Business 📈",
-    "Investment 💹",
+    "Lent Amount 💵",
+    "Service charge 🛠️",
+    "Cashback 💰",
     "Interest 🏦",
     "Freelancing 🧑‍💻",
+    "Others",
   ];
 
   const categories =
     transactionType === "expense" ? expenseCategories : incomeCategories;
 
-  const payments = ["Cash in hand", "Google Pay - GPay", "PhonePe"];
+  const payments = ["Cash in hand", "Google Pay (GPay)", "PhonePe"];
 
   //function
-  const handleSave = () => {
+  const handleSaveButton = async () => {
     if (!formData.amount || !formData.category || !formData.payment) {
       alert("Please fill all required fields");
       return;
     }
 
-    const transaction = {
-      id: Date.now(),
-      type: transactionType,
-      ...formData,
-    };
+    try {
+      const transaction = {
+        type: transactionType,
+        amount: Number(formData.amount),
+        category: formData.category,
+        date: formData.date,
+        payment: formData.payment,
+        notes: formData.notes,
+      };
 
-    const existing: TransactionType[] = JSON.parse(
-      localStorage.getItem("transactions") ?? "[]",
-    );
+      const response = await createTransaction(transaction);
+      console.log(response.data);
+      alert("Transaction Saved");
 
-    existing.push(transaction);
+      // const existing: TransactionType[] = JSON.parse(
+      //   localStorage.getItem("transactions") ?? "[]",
+      // );
 
-    localStorage.setItem("transactions", JSON.stringify(existing));
+      // existing.push(transaction);
 
-    alert("Transaction Saved");
+      // localStorage.setItem("transactions", JSON.stringify(existing));
 
-    setFormData({
-      amount: "",
-      category: "",
-      payment: "",
-      notes: "",
-      date: today,
-    });
+      setFormData({
+        amount: "",
+        category: "",
+        date: today,
+        payment: "",
+        notes: "",
+      });
+    } catch (error: any) {
+      console.log(error);
+      console.log(error.response);
+
+      alert(
+        error.response?.data?.message || "Something went wrong while saving.",
+      );
+    }
   };
 
   return (
     <>
-      <section className="">
+      <section className="min-h-screen mb-22">
         {/* 1. Top Header  */}
         <div className="grid grid-cols-3 items-center">
           <button
@@ -123,7 +156,7 @@ const Expenses = () => {
         </div>
 
         {/* 2. Earn & Spend button */}
-        <div className="w-full pt-3 flex items-center justify-center gap-3">
+        <div className="w-full pt-5 flex items-center justify-center gap-3">
           <button
             onClick={() => setTransactionType("income")}
             className={`flex-1 py-3 rounded-lg font-semibold flex items-center justify-center gap-1 transition-all duration-300 cursor-pointer ${
@@ -160,7 +193,8 @@ const Expenses = () => {
 
         {/* 3. User Transaction Details  */}
         <section>
-          <div className="mt-3">
+          {/* Transaction Amount  */}
+          <div className="mt-4">
             <h3 className="text-sm font-semibold text-text-muted">Amount</h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
@@ -177,6 +211,7 @@ const Expenses = () => {
             </div>
           </div>
 
+          {/* Category  */}
           <div className="mt-3">
             <h3 className="text-sm font-semibold text-text-muted">Category</h3>
 
@@ -203,13 +238,26 @@ const Expenses = () => {
             </div>
           </div>
 
+          {/* Date  */}
           <div className="mt-3">
             <h3 className="text-sm font-semibold text-text-muted">Date</h3>
 
             <div className="mt-2 p-2 flex items-center gap-3 border border-border rounded-md">
-              <HiOutlineCalendarDateRange size={20} />
+              <button
+                className="cursor-pointer"
+                onClick={() => {
+                  if (dateInputRef.current?.showPicker) {
+                    dateInputRef.current.showPicker();
+                  } else {
+                    dateInputRef.current?.focus();
+                  }
+                }}
+              >
+                <HiOutlineCalendarDateRange size={20} />
+              </button>
               <input
                 type="date"
+                ref={dateInputRef}
                 value={formData.date}
                 onChange={(e) =>
                   setFormData({
@@ -217,11 +265,12 @@ const Expenses = () => {
                     date: e.target.value,
                   })
                 }
-                className="w-full outline-none"
+                className="w-full outline-none custom-date"
               />
             </div>
           </div>
 
+          {/* Payment Method */}
           <div className="mt-3">
             <h3 className="text-sm font-semibold text-text-muted">
               Payment Method
@@ -248,6 +297,7 @@ const Expenses = () => {
             </div>
           </div>
 
+          {/* Notes  */}
           <div className="mt-3">
             <h3 className="text-sm font-semibold text-text-muted">
               Notes (Optional)
@@ -270,8 +320,9 @@ const Expenses = () => {
             </div>
           </div>
 
+          {/* Save to DB  */}
           <button
-            onClick={handleSave}
+            onClick={handleSaveButton}
             className="mt-3 w-full p-2 bg-primary text-white rounded-md cursor-pointer hover:opacity-90"
           >
             Save Expense
