@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { MdDateRange } from "react-icons/md";
-import { TbShoppingCartMinus, TbShoppingCartPlus } from "react-icons/tb";
+import { BsCashCoin } from "react-icons/bs";
+
 import Recents from "../components/Recents";
+import { PiPlusMinusBold } from "react-icons/pi";
+import { FaGooglePay } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
   const [todaysDate] = useState(() => new Date());
+
+  const navigate = useNavigate();
 
   return (
     <main className="min-h-screen mb-20">
@@ -31,32 +37,68 @@ const Homepage = () => {
 
       {/* section2  */}
       <section className="my-3 p-2 border border-border bg-bg-hover rounded-md">
-        <p className="text-text-muted">Total Balance:</p>
-        <h2 className="text-2xl py-2 font-bold">Rs.1000 ₹</h2>
-        {/* <p>metrics</p> */}
+        {/* Container  */}
+
+        <div className="w-full py-4 flex flex-col justify-between items-center gap-2">
+          {/* Actions 1  */}
+          <div className="yoki w-full p-1 flex flex-col items-center gap-1">
+            <p className="text-text-muted">Total Balance:</p>
+            <h2 className="text-2xl py-2 font-bold">Rs.1000 ₹</h2>
+            <p>metrics</p>
+          </div>
+
+          {/* Actions 2  */}
+          <div className="yoki w-full p-1 flex flex-col items-center gap-1">
+            <p className="text-text-muted">Cash in hand:</p>
+            <h2 className="text-xl py-2 font-bold">Rs.1000 ₹</h2>
+            <p>metrics</p>
+          </div>
+
+          {/* Actions 3  */}
+
+          <div className="yoki w-full p-1 flex flex-col items-center gap-1">
+            <p className="text-text-muted">Online Balance:</p>
+            <h2 className="text-xl py-2 font-bold">Rs.1000 ₹</h2>
+            <p>metrics</p>
+          </div>
+        </div>
       </section>
       {/* section2  */}
 
       {/* section3  */}
-      {/* <section className="w-full my-5">
+      <section className="w-full my-5">
         <h3 className="text-text text-lg font-semibold">Quick Actions</h3>
+        {/* Container  */}
 
         <div className="w-full py-4 flex justify-between items-center gap-4">
+          {/* Actions 1  */}
           <div className="w-full p-1 flex flex-col items-center gap-1">
-            <button className="p-3 bg-red-400 rounded-md cursor-pointer">
-              <TbShoppingCartMinus size={25} color="white" />
+            <button
+              onClick={() => navigate("/expenses")}
+              className="p-3 bg-red-400 rounded-md cursor-pointer"
+            >
+              <PiPlusMinusBold size={25} color="white" />
             </button>
             <h3 className="text-sm">Add Expense</h3>
           </div>
 
+          {/* Actions 2 */}
           <div className="w-full p-1 flex flex-col items-center gap-1">
             <button className="p-3 bg-green-700 rounded-md cursor-pointer">
-              <TbShoppingCartPlus size={25} color="white" />
+              <BsCashCoin size={25} color="white" />
             </button>
-            <h3 className="text-sm">Add Income</h3>
+            <h3 className="text-sm">Add Cash Amount</h3>
+          </div>
+
+          {/* Actions 3 */}
+          <div className="w-full p-1 flex flex-col items-center gap-1">
+            <button className="p-3 bg-blue-700 rounded-md cursor-pointer">
+              <FaGooglePay size={25} color="white" />
+            </button>
+            <h3 className="text-sm">Add Online Cash</h3>
           </div>
         </div>
-      </section> */}
+      </section>
       {/* section3  */}
 
       {/* section4  */}
