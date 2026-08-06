@@ -23,10 +23,12 @@ const Recents = () => {
         const response = await axios.get(API_URL + "/");
 
         // sorts the transactions based on date
-        const sortedTransactions = response.data.data.sort(
-          (a: Transaction, b: Transaction) =>
-            new Date(b.date).getTime() - new Date(a.date).getTime(),
-        );
+        const sortedTransactions = response.data.data
+          .sort(
+            (a: Transaction, b: Transaction) =>
+              new Date(b.date).getTime() - new Date(a.date).getTime(),
+          )
+          .slice(0, 4);
 
         setTransactions(sortedTransactions);
       } catch (error) {
