@@ -43,9 +43,9 @@ export const getBalances = async (req, res) => {
 export const getBalanceByType = async (req, res) => {
   try {
     const { type } = req.params;
-    console.log("type:", type);
+    // console.log("type:", type);
 
-    const balance = await Balance.findOne({ type });
+    const balance = await Balance.findOne({ amountType: type });
 
     if (!balance) {
       return res.status(404).json({
