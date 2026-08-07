@@ -11,10 +11,6 @@ const balanceSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    paymentMethod: {
-      type: String,
-      default: "",
-    },
     notes: {
       type: String,
       default: "",
