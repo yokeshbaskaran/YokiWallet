@@ -25,7 +25,6 @@ type AppContextType = {
 
 const AppContext = createContext({} as AppContextType);
 
-// export const API_URL = "http://localhost:5000";
 export const API_URL = import.meta.env.VITE_SERVER_APP_URL;
 
 export function useAppContext() {
