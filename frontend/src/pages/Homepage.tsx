@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { MdDateRange } from "react-icons/md";
 import { BsCashCoin } from "react-icons/bs";
@@ -8,6 +8,10 @@ import { PiPlusMinusBold } from "react-icons/pi";
 import { FaGooglePay } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import BalanceModal from "../components/BalanceModal";
+import axios from "axios";
+import { API_URL } from "../context/AppContext";
+
+type AmountBalanceType = "cash" | "online";
 
 const Homepage = () => {
   const [cashOpen, setCashOpen] = useState(false);
@@ -16,6 +20,23 @@ const Homepage = () => {
   // Setting Today's date
   const [todaysDate] = useState(() => new Date());
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const getBalanceByType = async (type: AmountBalanceType) => {
+  //     try {
+  //       const response = await axios.get(API_URL + `/balance/${type}`);
+  //       console.log("GET Amount balance", response);
+
+  //       return response.data;
+  //     } catch (error) {
+  //       console.error("GET Amount balance Error:", error);
+  //       throw error;
+  //     }
+  //   };
+
+  //   getBalanceByType("cash");
+  //   getBalanceByType("online");
+  // }, []);
 
   return (
     <main className="min-h-screen mb-20">
@@ -40,6 +61,8 @@ const Homepage = () => {
       {/* section1  */}
 
       {/* section2  */}
+      {/* Amount Details  */}
+
       <section className="my-3 p-2 border border-border bg-bg-hover rounded-md">
         {/* Container  */}
 

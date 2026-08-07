@@ -8,7 +8,7 @@ const MainLayout = () => {
         <div className="flex-1 w-full">
           <Outlet />
         </div>
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full z-50">
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full z-40">
           <MobileBottomNav />
         </div>
       </section>
