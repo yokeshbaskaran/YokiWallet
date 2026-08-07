@@ -11,8 +11,6 @@ import BalanceModal from "../components/BalanceModal";
 import axios from "axios";
 import { API_URL } from "../context/AppContext";
 
-type AmountBalanceType = "cash" | "online";
-
 const Homepage = () => {
   const [cashOpen, setCashOpen] = useState(false);
   const [onlineOpen, setOnlineOpen] = useState(false);
