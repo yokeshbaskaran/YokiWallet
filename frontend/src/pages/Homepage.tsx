@@ -17,26 +17,32 @@ const Homepage = () => {
   const [cashOpen, setCashOpen] = useState(false);
   const [onlineOpen, setOnlineOpen] = useState(false);
 
+  const [cashBalance, setcashBalance] = useState("0");
+  const [onlineBalance, setOnlineBalance] = useState("0");
+
   // Setting Today's date
   const [todaysDate] = useState(() => new Date());
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const getBalanceByType = async (type: AmountBalanceType) => {
-  //     try {
-  //       const response = await axios.get(API_URL + `/balance/${type}`);
-  //       console.log("GET Amount balance", response);
+  useEffect(() => {
+    const fetchBalances = async () => {
+      try {
+        const [cashRes, onlineRes] = await Promise.all([
+          axios.get(API_URL + "/balance/cash"),
+          axios.get(API_URL + "/balance/online"),
+        ]);
 
-  //       return response.data;
-  //     } catch (error) {
-  //       console.error("GET Amount balance Error:", error);
-  //       throw error;
-  //     }
-  //   };
+        console.log("GET ALL Amount type:", cashRes);
 
-  //   getBalanceByType("cash");
-  //   getBalanceByType("online");
-  // }, []);
+        setcashBalance(cashRes.data.amount);
+        setOnlineBalance(onlineRes.data.amount);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchBalances();
+  }, []);
 
   return (
     <main className="min-h-screen mb-20">
@@ -66,27 +72,27 @@ const Homepage = () => {
       <section className="my-3 p-2 border border-border bg-bg-hover rounded-md">
         {/* Container  */}
 
-        <div className="w-full py-4 flex flex-col justify-between items-center gap-2">
+        <div className="w-full py-4 flex justify-between items-center gap-2">
           {/* Actions 1  */}
-          <div className="yoki w-full p-1 flex flex-col items-center gap-1">
+          {/* <div className="w-full p-1 flex flex-col items-center gap-1">
             <p className="text-text-muted">Total Balance:</p>
             <h2 className="text-2xl py-2 font-bold">Rs.1000 ₹</h2>
             <p>metrics</p>
-          </div>
+          </div> */}
 
           {/* Actions 2  */}
-          <div className="yoki w-full p-1 flex flex-col items-center gap-1">
+          <div className="w-full p-1 flex flex-col items-center gap-1">
             <p className="text-text-muted">Cash in hand:</p>
-            <h2 className="text-xl py-2 font-bold">Rs.1000 ₹</h2>
-            <p>metrics</p>
+            <h2 className="text-xl py-2 font-bold">Rs.{cashBalance} ₹</h2>
+            {/* <p>metrics</p> */}
           </div>
 
           {/* Actions 3  */}
 
-          <div className="yoki w-full p-1 flex flex-col items-center gap-1">
+          <div className="w-full p-1 flex flex-col items-center gap-1">
             <p className="text-text-muted">Online Balance:</p>
-            <h2 className="text-xl py-2 font-bold">Rs.1000 ₹</h2>
-            <p>metrics</p>
+            <h2 className="text-xl py-2 font-bold">Rs.{onlineBalance} ₹</h2>
+            {/* <p>metrics</p> */}
           </div>
         </div>
       </section>

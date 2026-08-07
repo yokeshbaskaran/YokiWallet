@@ -12,7 +12,7 @@ type BalanceModalProps = {
 type AmountType = "cash" | "online";
 
 type AmountDetails = {
-  type: AmountType;
+  amountType: AmountType;
   amount: number;
   notes: string;
 };
@@ -44,7 +44,7 @@ const BalanceModal = ({ open, onClose, type }: BalanceModalProps) => {
       }
 
       const amountDetails = {
-        type,
+        amountType: type,
         amount: Number(amount),
         notes,
       };
