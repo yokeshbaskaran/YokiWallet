@@ -54,12 +54,13 @@ const Expenses = () => {
 
   //datas for Categories
   const expenseCategories = [
-    "Dress 👕",
+    "Dress & Accessories 👕",
     "Petrol / Diesel ⛽",
     "Food & Snacks 🍔",
+    "Entertainment - Movie 🎬",
+    "Withdraw Money 💳",
     "Bought Accessories 🛍️",
     "Online Web Shopping 🛒",
-    "Entertainment - Movie 🎬",
     "Amount lent 🚨",
     "Maintenance & Repair 🧰",
     "Bills 💡",
@@ -83,7 +84,12 @@ const Expenses = () => {
   const categories =
     transactionType === "expense" ? expenseCategories : incomeCategories;
 
-  const payments = ["Cash in hand", "Google Pay (GPay)", "PhonePe"];
+  const payments = [
+    "Cash in hand 💵",
+    "Google Pay (GPay) 🔵📱",
+    "PhonePe 🟣📱",
+    "Debit card 💳",
+  ];
 
   //function
   const handleSaveButton = async () => {
@@ -121,14 +127,23 @@ const Expenses = () => {
         payment: "",
         notes: "",
       });
-    } catch (error: any) {
-      console.log(error);
-      console.log(error.response);
-
-      alert(
-        error.response?.data?.message || "Something went wrong while saving.",
-      );
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(
+          error.response?.data?.message || "Something went wrong while saving.",
+        );
+      } else {
+        console.log("Something went wrong!!!");
+      }
     }
+    // } catch (error) {
+    //   console.log(error);
+    //   console.log(error.response);
+
+    //   alert(
+    //     error.response?.data?.message || "Something went wrong while saving.",
+    //   );
+    // }
   };
 
   return (
