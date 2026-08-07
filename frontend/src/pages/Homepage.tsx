@@ -7,10 +7,14 @@ import Recents from "../components/Recents";
 import { PiPlusMinusBold } from "react-icons/pi";
 import { FaGooglePay } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import BalanceModal from "../components/BalanceModal";
 
 const Homepage = () => {
-  const [todaysDate] = useState(() => new Date());
+  const [cashOpen, setCashOpen] = useState(false);
+  const [onlineOpen, setOnlineOpen] = useState(false);
 
+  // Setting Today's date
+  const [todaysDate] = useState(() => new Date());
   const navigate = useNavigate();
 
   return (
@@ -84,20 +88,40 @@ const Homepage = () => {
 
           {/* Actions 2 */}
           <div className="w-full p-1 flex flex-col items-center gap-1">
-            <button className="p-3 bg-green-700 rounded-md cursor-pointer">
+            <button
+              onClick={() => setCashOpen(true)}
+              className="p-3 bg-green-700 rounded-md cursor-pointer"
+            >
               <BsCashCoin size={25} color="white" />
             </button>
+
             <h3 className="text-sm">Add Cash Amount</h3>
           </div>
 
           {/* Actions 3 */}
           <div className="w-full p-1 flex flex-col items-center gap-1">
-            <button className="p-3 bg-blue-700 rounded-md cursor-pointer">
+            <button
+              onClick={() => setOnlineOpen(true)}
+              className="p-3 bg-blue-700 rounded-md cursor-pointer"
+            >
               <FaGooglePay size={25} color="white" />
             </button>
             <h3 className="text-sm">Add Online Cash</h3>
           </div>
         </div>
+
+        {/* Balance Modal Toggle Codes  */}
+        <BalanceModal
+          open={cashOpen}
+          onClose={() => setCashOpen(false)}
+          type="cash"
+        />
+
+        <BalanceModal
+          open={onlineOpen}
+          onClose={() => setOnlineOpen(false)}
+          type="online"
+        />
       </section>
       {/* section3  */}
 
