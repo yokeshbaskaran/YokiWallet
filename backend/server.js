@@ -19,7 +19,7 @@ app.use(
 
 app.use(express.json());
 
-app.use("/api", transactionRoutes);
+app.use("/api/transaction", transactionRoutes);
 app.use("/api/balance", balanceRoutes);
 
 const PORT = process.env.PORT || 5001;
