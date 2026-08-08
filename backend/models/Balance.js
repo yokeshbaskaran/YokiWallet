@@ -2,18 +2,16 @@ import mongoose from "mongoose";
 
 const balanceSchema = new mongoose.Schema(
   {
-    amountType: {
-      type: String,
-      enum: ["cash", "online"],
-      required: true,
-    },
-    amount: {
+    cashBalance: {
       type: Number,
-      required: true,
+      default: 0,
+      min: 0,
     },
-    notes: {
-      type: String,
-      default: "",
+
+    onlineBalance: {
+      type: Number,
+      default: 0,
+      min: 0,
     },
   },
   {
