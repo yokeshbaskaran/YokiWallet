@@ -1,26 +1,13 @@
 import express from "express";
 
-import {
-  createBalance,
-  getBalances,
-  getBalanceByType,
-  updateBalance,
-  deleteBalance,
-} from "../controllers/balanceController.js";
+import { getBalance, updateBalance } from "../controllers/balanceController.js";
 
 const router = express.Router();
 
-// // Get All
-// router.get("/", getBalances);
-// Get Balance by Type (Cash or Online Balance)
-router.get("/:type", getBalanceByType);
+// Get Current Cash + Online and Total Amount Balance
+router.get("/", getBalance);
 
-// Create
-router.post("/", createBalance);
-
-// // Update
-// router.put("/:id", updateBalance);
-// // Delete
-// router.delete("/:id", deleteBalance);
+// update balance
+router.put("/", updateBalance);
 
 export default router;
