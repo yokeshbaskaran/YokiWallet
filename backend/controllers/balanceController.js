@@ -17,7 +17,6 @@ export const getBalance = async (req, res) => {
 
     res.status(200).json({
       success: true,
-
       data: {
         cashBalance: balance.cashBalance,
         onlineBalance: balance.onlineBalance,

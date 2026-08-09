@@ -1,5 +1,11 @@
 import axios from "axios";
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 import { useNavigate } from "react-router-dom";
 
 //types
@@ -54,24 +60,26 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
   const [onlineBalance, setOnlineBalance] = useState(0);
   const [totalBalance, setTotalBalance] = useState(0);
 
-  const fetchBalance = async (): Promise<AmountBalance> => {
+  const fetchBalance = useCallback(async (): Promise<AmountBalance> => {
     try {
       const response = await axios.get(API_URL + "/balance");
-      console.log("GET AllBalance", response.data.data);
+      console.log("GET All-Balance:", response);
 
       // setting amount values
       const data = response.data.data;
 
       setCashBalance(data.cashBalance);
       setOnlineBalance(data.onlineBalance);
-      setTotalBalance(data.totalBalance);
+
+      const total = Number(data.totalBalance).toFixed(2);
+      setTotalBalance(Number(total));
 
       return response.data;
     } catch (error) {
       console.error("GET AllBalance Error:", error);
       throw error;
     }
-  };
+  }, []);
 
   //dummy Auths
   const [authUser, setAuthUser] = useState<AuthUser>(() => {

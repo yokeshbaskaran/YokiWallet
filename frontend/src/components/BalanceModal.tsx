@@ -34,18 +34,12 @@ const BalanceModal = ({
 
   const [loading, setLoading] = useState(false);
 
-  // ========================================
   // Don't render when closed
-  // ========================================
-
   if (!open) {
     return null;
   }
 
-  // ========================================
   // CLOSE MODAL
-  // ========================================
-
   const handleClose = () => {
     if (loading) return;
 
@@ -54,10 +48,7 @@ const BalanceModal = ({
     onClose();
   };
 
-  // ========================================
   // SAVE BALANCE
-  // ========================================
-
   const handleSave = async () => {
     // Required validation
     if (!amount.trim()) {
@@ -77,21 +68,15 @@ const BalanceModal = ({
     try {
       setLoading(true);
 
-      // ------------------------------------
       // Send only the selected balance type
-      // ------------------------------------
-
       const response = await axios.put(`${API_URL}/balance`, {
         type,
-        amount: numericAmount,
+        amount: parseInt(amount, 10),
       });
 
       console.log("Balance Updated:", response.data);
 
-      // ------------------------------------
       // Success
-      // ------------------------------------
-
       alert(
         type === "cash" ? "Cash Balance Updated!" : "Online Balance Updated!",
       );
@@ -116,9 +101,7 @@ const BalanceModal = ({
     }
   };
 
-  // ========================================
   // UI
-  // ========================================
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">

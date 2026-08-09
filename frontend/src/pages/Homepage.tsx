@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { MdDateRange } from "react-icons/md";
 import { BsCashCoin } from "react-icons/bs";
@@ -20,6 +20,10 @@ const Homepage = () => {
   // Setting Today's date
   const [todaysDate] = useState(() => new Date());
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchBalance();
+  }, [fetchBalance]);
 
   return (
     <main className="min-h-screen mb-20">
