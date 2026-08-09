@@ -6,6 +6,7 @@ import Profile from "./pages/Profile";
 import Homepage from "./pages/Homepage";
 import { useAppContext } from "./context/AppContext";
 import AuthPage from "./pages/AuthPage";
+import Transactions from "./pages/Transactions";
 
 // types
 type RouteProps = { children: React.ReactNode };
@@ -43,6 +44,7 @@ const App = () => {
           <Route index element={<Homepage />} />
           <Route path="/expenses" element={<Expenses />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/transactions" element={<Transactions />} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
