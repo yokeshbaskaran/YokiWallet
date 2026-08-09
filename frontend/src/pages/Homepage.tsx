@@ -4,7 +4,7 @@ import { MdDateRange } from "react-icons/md";
 import { BsCashCoin } from "react-icons/bs";
 import Recents from "../components/Recents";
 import { PiPlusMinusBold } from "react-icons/pi";
-import { FaGooglePay } from "react-icons/fa6";
+import { FaAngleRight, FaGooglePay } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import BalanceModal from "../components/BalanceModal";
 
@@ -141,6 +141,17 @@ const Homepage = () => {
 
       {/* section4  */}
       <div className="my-5">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold">Recent Transactions</h2>
+
+          <button
+            onClick={() => navigate("/transactions")}
+            className="px-3 py-2 text-primary text-sm font-medium flex items-center gap-1 border-2 border-border-strong rounded-md cursor-pointer hover:border-primary transition-colors"
+          >
+            <span>See All</span>
+            <FaAngleRight size={12} />
+          </button>
+        </div>
         <Recents />
       </div>
       {/* section4  */}

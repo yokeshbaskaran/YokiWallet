@@ -2,7 +2,6 @@ import axios from "axios";
 import { API_URL } from "../context/AppContext";
 import { useEffect, useState } from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
-import { FaAngleRight } from "react-icons/fa6";
 import { expenseCategories, incomeCategories } from "../utils/helpers";
 
 type Transaction = {
@@ -49,15 +48,6 @@ const Recents = () => {
 
   return (
     <section>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Recent Transactions</h2>
-
-        <button className="text-primary text-sm font-medium flex items-center gap-1 cursor-pointer">
-          <span>See All</span>
-          <FaAngleRight size={12} className="mt-1" />
-        </button>
-      </div>
-
       <div className="space-y-3">
         {transactions.length === 0 ? (
           <div className="text-center py-10 text-gray-500">
@@ -73,6 +63,7 @@ const Recents = () => {
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex justify-between items-center"
               >
                 <div className="flex gap-3">
+                  {/* icon  */}
                   <div
                     className={`w-12 h-12 rounded-md flex items-center justify-center text-xl ${
                       item.type === "expense" ? "bg-red-100" : "bg-green-100"
@@ -81,15 +72,10 @@ const Recents = () => {
                     {categoryLabel.split(" ").pop()}
                   </div>
 
+                  {/* Expense category and Date */}
                   <div>
-                    <h3 className="font-semibold">{categoryLabel}</h3>
-
-                    {/* Payment method */}
-                    {/* <p className="text-sm text-gray-500">
-                      {item.payment}
-                    </p> */}
-
-                    <p className="text-xs font-semibold text-gray-400">
+                    <h3 className="font-semibold text-lg">{categoryLabel}</h3>
+                    <p className="text-sm font-medium text-gray-400">
                       {new Date(item.date)
                         .toLocaleDateString("en-GB")
                         .replace(/\//g, ".")}
@@ -97,15 +83,14 @@ const Recents = () => {
                   </div>
                 </div>
 
+                {/* Expense Details  */}
                 <div
                   className={`flex items-center font-bold text-lg ${
                     item.type === "expense" ? "text-red-600" : "text-green-600"
                   }`}
                 >
                   {item.type === "expense" ? "-" : "+"}
-
-                  <LiaRupeeSignSolid />
-
+                  <LiaRupeeSignSolid size={20} />
                   {item.amount}
                 </div>
               </div>
