@@ -7,6 +7,7 @@ import {
   useCallback,
 } from "react";
 import { useNavigate } from "react-router-dom";
+import { type TransactionType } from "../utils/helpers";
 
 //types
 type AppContextProviderType = {
@@ -39,6 +40,9 @@ type AppContextType = {
   onlineBalance: number;
   totalBalance: number;
   fetchBalance: () => void;
+
+  transactions: TransactionType[];
+  getAllTransactions: () => void;
 };
 
 const AppContext = createContext({} as AppContextType);
@@ -111,6 +115,27 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
     setAuthUser(null);
   };
 
+  // Fetch All Transactions
+  const [transactions, setTransactions] = useState<TransactionType[]>([]);
+
+  const getAllTransactions = async () => {
+    try {
+      const response = await axios.get(API_URL + "/transaction");
+
+      // Sort transactions based on date
+      const sortedTransactions = response.data.data
+        .sort(
+          (a: TransactionType, b: TransactionType) =>
+            new Date(b.date).getTime() - new Date(a.date).getTime(),
+        )
+        .slice(0, 4);
+
+      setTransactions(sortedTransactions);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const contextValues = {
     dark,
     setDark,
@@ -126,6 +151,10 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
     onlineBalance,
     totalBalance,
     fetchBalance,
+
+    // transactions
+    transactions,
+    getAllTransactions,
   };
 
   return (
