@@ -1,5 +1,16 @@
-//datas for Categories
+//Types
+export type TransactionType = {
+    _id: string;
+    type: "income" | "expense";
+    amount: number;
+    category: string;
+    payment: string;
+    date: string;
+    notes?: string;
+};
 
+
+//datas for Categories
 // Expense Categories
 export const expenseCategories = [
     { label: "Dress & Accessories 👕", value: "dress_accessories" },
@@ -31,3 +42,9 @@ export const incomeCategories = [
 ];
 
 
+// Get category label from value
+export const getCategoryLabel = (category: string, type: "income" | "expense") => {
+    const categories = type === "expense" ? expenseCategories : incomeCategories;
+
+    return categories.find((item) => item.value === category)?.label || category;
+};
