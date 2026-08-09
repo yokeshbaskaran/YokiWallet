@@ -3,14 +3,6 @@ import { RiMoneyRupeeCircleFill } from "react-icons/ri";
 import { LuUserRound } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
-export const MobileTopNav = () => {
-  return (
-    <>
-      <section>TopNav</section>
-    </>
-  );
-};
-
 export const MobileBottomNav = () => {
   return (
     <>
@@ -22,6 +14,13 @@ export const MobileBottomNav = () => {
           </div>
         </Link>
 
+        {/* <Link to="/work">
+          <div className="flex flex-col items-center text-sm font-medium cursor-pointer">
+            <LuUserRound size={28} />
+            <h2>Profile</h2>
+          </div>
+        </Link> */}
+
         <Link to="/expenses">
           {/* Floating Button */}
           <div className="absolute left-1/2 -translate-x-1/2 -top-7 flex flex-col items-center">
@@ -32,6 +31,13 @@ export const MobileBottomNav = () => {
             <h2 className="mt-2 text-sm font-medium">Add expenses</h2>
           </div>
         </Link>
+
+        {/* <Link to="/goals">
+          <div className="flex flex-col items-center text-sm font-medium cursor-pointer">
+            <LuUserRound size={28} />
+            <h2>Profile</h2>
+          </div>
+        </Link> */}
 
         <Link to="/profile">
           <div className="flex flex-col items-center text-sm font-medium cursor-pointer">
