@@ -1,11 +1,14 @@
 import Balance from "../models/Balance.js";
 
+// ==================================================
 // GET CURRENT BALANCE
+// ==================================================
+
 export const getBalance = async (req, res) => {
   try {
     let balance = await Balance.findOne();
 
-    // Create balance document if it doesn't exist
+    // First time application is opened
     if (!balance) {
       balance = await Balance.create({
         cashBalance: 0,
@@ -17,6 +20,7 @@ export const getBalance = async (req, res) => {
 
     res.status(200).json({
       success: true,
+
       data: {
         cashBalance: balance.cashBalance,
         onlineBalance: balance.onlineBalance,
@@ -28,10 +32,150 @@ export const getBalance = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Failed to fetch balance",
     });
   }
 };
 
-// SET / UPDATE INITIAL BALANCE
-export const updateBalance = async (req, res) => {};
+// ==================================================
+// SET INITIAL / MANUAL BALANCE
+// ==================================================
+
+export const setBalance = async (req, res) => {
+  try {
+    const { cashBalance, onlineBalance } = req.body;
+
+    if (cashBalance === undefined || onlineBalance === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "Cash and online balance are required",
+      });
+    }
+
+    const cash = Number(cashBalance);
+    const online = Number(onlineBalance);
+
+    if (!Number.isFinite(cash) || !Number.isFinite(online)) {
+      return res.status(400).json({
+        success: false,
+        message: "Balance must contain valid numbers",
+      });
+    }
+
+    if (cash < 0 || online < 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Balance cannot be negative",
+      });
+    }
+
+    const balance = await Balance.findOneAndUpdate(
+      {},
+      {
+        cashBalance: cash,
+        onlineBalance: online,
+      },
+      {
+        new: true,
+        upsert: true,
+        runValidators: true,
+      },
+    );
+
+    res.status(200).json({
+      success: true,
+
+      message: "Balance set successfully",
+
+      data: {
+        cashBalance: balance.cashBalance,
+
+        onlineBalance: balance.onlineBalance,
+
+        totalBalance: balance.cashBalance + balance.onlineBalance,
+      },
+    });
+  } catch (error) {
+    console.error("Set Balance Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to set balance",
+    });
+  }
+};
+
+// ==================================================
+// CHANGE BALANCE FROM TRANSACTION
+// ==================================================
+
+export const changeBalance = async ({ type, payment, amount }) => {
+  const numericAmount = Number(amount);
+
+  if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+    throw new Error("Transaction amount must be greater than 0");
+  }
+
+  // -----------------------------------------------
+  // Determine Cash or Online
+  // -----------------------------------------------
+
+  let balanceField;
+
+  if (payment === "cash") {
+    balanceField = "cashBalance";
+  }
+
+  if (payment === "gpay" || payment === "phonepe") {
+    balanceField = "onlineBalance";
+  }
+
+  if (!balanceField) {
+    throw new Error("Invalid payment method");
+  }
+
+  // -----------------------------------------------
+  // Get balance
+  // -----------------------------------------------
+
+  let balance = await Balance.findOne();
+
+  if (!balance) {
+    throw new Error("Please set your initial balance first");
+  }
+
+  // -----------------------------------------------
+  // Income = +
+  // Expense = -
+  // -----------------------------------------------
+
+  if (type === "income") {
+    balance[balanceField] += numericAmount;
+  }
+
+  if (type === "expense") {
+    balance[balanceField] -= numericAmount;
+  }
+
+  // -----------------------------------------------
+  // Prevent negative balance
+  // -----------------------------------------------
+
+  if (balance[balanceField] < 0) {
+    throw new Error(
+      `Insufficient ${
+        balanceField === "cashBalance" ? "cash" : "online"
+      } balance`,
+    );
+  }
+
+  await balance.save();
+
+  return {
+    cashBalance: balance.cashBalance,
+
+    onlineBalance: balance.onlineBalance,
+
+    totalBalance: balance.cashBalance + balance.onlineBalance,
+  };
+};

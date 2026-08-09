@@ -1,22 +1,97 @@
 import Transaction from "../models/Transaction.js";
+import { changeBalance } from "../controllers/balanceController.js";
 
 // Create
+// export const createTransaction = async (req, res) => {
+//   try {
+//     const { type, amount, category, payment, date, notes } = req.body;
+
+//     if (!type || !amount || !category || !payment || !date) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Please fill all required fields",
+//       });
+//     }
+
+//     const numericAmount = Number(amount);
+
+//     if (numericAmount <= 0) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Amount must be greater than 0",
+//       });
+//     }
+
+//     const balanceField = getBalanceField(payment);
+
+//     if (!balanceField) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid payment method",
+//       });
+//     }
+
+//     let balance = await Balance.findOne();
+
+//     if (!balance) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Please set your cash and online balance first",
+//       });
+//     }
+
+//     // Expense = negative
+//     // Income = positive
+//     const change = numericAmount * getTransactionSign(type);
+
+//     const newBalance = balance[balanceField] + change;
+
+//     // Don't allow negative balance
+//     if (newBalance < 0) {
+//       return res.status(400).json({
+//         success: false,
+//         message: `Insufficient ${
+//           balanceField === "cashBalance" ? "cash" : "online"
+//         } balance`,
+//       });
+//     }
+
+//     // Create transaction
+//     const transaction = await Transaction.create({
+//       type,
+//       amount: numericAmount,
+//       category,
+//       payment,
+//       date,
+//       notes,
+//     });
+
+//     // Update balance
+//     balance[balanceField] = newBalance;
+
+//     await balance.save();
+
+//     res.status(201).json({
+//       success: true,
+//       message: "Transaction Added Successfully",
+//       data: transaction,
+//       balance: {
+//         cashBalance: balance.cashBalance,
+//         onlineBalance: balance.onlineBalance,
+//         totalBalance: balance.cashBalance + balance.onlineBalance,
+//       },
+//     });
+//   } catch (error) {
+//     console.error("Create Transaction Error:", error);
+
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+
 export const createTransaction = async (req, res) => {
-  // try {
-  //   const transaction = await Transaction.create(req.body);
-
-  //   res.status(201).json({
-  //     success: true,
-  //     message: "Transaction Added",
-  //     data: transaction,
-  //   });
-  // } catch (error) {
-  //   res.status(500).json({
-  //     success: false,
-  //     message: error.message,
-  //   });
-  // }
-
   try {
     const { type, amount, category, payment, date, notes } = req.body;
 
@@ -27,78 +102,36 @@ export const createTransaction = async (req, res) => {
       });
     }
 
-    const numericAmount = Number(amount);
+    // 1. Change balance
+    const balance = await changeBalance({
+      type,
+      payment,
+      amount,
+    });
 
-    if (numericAmount <= 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Amount must be greater than 0",
-      });
-    }
-
-    const balanceField = getBalanceField(payment);
-
-    if (!balanceField) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid payment method",
-      });
-    }
-
-    let balance = await Balance.findOne();
-
-    if (!balance) {
-      return res.status(400).json({
-        success: false,
-        message: "Please set your cash and online balance first",
-      });
-    }
-
-    // Expense = negative
-    // Income = positive
-    const change = numericAmount * getTransactionSign(type);
-
-    const newBalance = balance[balanceField] + change;
-
-    // Don't allow negative balance
-    if (newBalance < 0) {
-      return res.status(400).json({
-        success: false,
-        message: `Insufficient ${
-          balanceField === "cashBalance" ? "cash" : "online"
-        } balance`,
-      });
-    }
-
-    // Create transaction
+    // 2. Create transaction
     const transaction = await Transaction.create({
       type,
-      amount: numericAmount,
+      amount,
       category,
       payment,
       date,
       notes,
     });
 
-    // Update balance
-    balance[balanceField] = newBalance;
-
-    await balance.save();
-
     res.status(201).json({
       success: true,
-      message: "Transaction Added Successfully",
+
+      message: "Transaction added successfully",
+
       data: transaction,
-      balance: {
-        cashBalance: balance.cashBalance,
-        onlineBalance: balance.onlineBalance,
-        totalBalance: balance.cashBalance + balance.onlineBalance,
-      },
+
+      balance,
     });
   } catch (error) {
-    console.error("Create Transaction Error:", error);
+    console.error(error);
 
-    res.status(500).json({
+    res.status(400).json({
       success: false,
       message: error.message,
     });
