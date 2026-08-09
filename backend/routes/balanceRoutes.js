@@ -1,6 +1,6 @@
 import express from "express";
 
-import { getBalance, setBalance } from "../controllers/balanceController.js";
+import { getBalance, updateBalance } from "../controllers/balanceController.js";
 
 const router = express.Router();
 
@@ -8,6 +8,6 @@ const router = express.Router();
 router.get("/", getBalance);
 
 // update balance
-router.put("/", setBalance);
+router.put("/", updateBalance);
 
 export default router;

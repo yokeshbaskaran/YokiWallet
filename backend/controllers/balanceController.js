@@ -41,39 +41,46 @@ export const getBalance = async (req, res) => {
 // SET INITIAL / MANUAL BALANCE
 // ==================================================
 
-export const setBalance = async (req, res) => {
+export const updateBalance = async (req, res) => {
   try {
-    const { cashBalance, onlineBalance } = req.body;
+    const { type, amount } = req.body;
 
-    if (cashBalance === undefined || onlineBalance === undefined) {
+    if (!type || amount === undefined) {
       return res.status(400).json({
         success: false,
-        message: "Cash and online balance are required",
+        message: "Type and amount are required",
       });
     }
 
-    const cash = Number(cashBalance);
-    const online = Number(onlineBalance);
-
-    if (!Number.isFinite(cash) || !Number.isFinite(online)) {
+    if (!["cash", "online"].includes(type)) {
       return res.status(400).json({
         success: false,
-        message: "Balance must contain valid numbers",
+        message: "Invalid balance type",
       });
     }
 
-    if (cash < 0 || online < 0) {
+    const numericAmount = Number(amount);
+
+    if (!Number.isFinite(numericAmount) || numericAmount < 0) {
       return res.status(400).json({
         success: false,
-        message: "Balance cannot be negative",
+        message: "Invalid amount",
       });
     }
+
+    const updateField =
+      type === "cash"
+        ? {
+            cashBalance: numericAmount,
+          }
+        : {
+            onlineBalance: numericAmount,
+          };
 
     const balance = await Balance.findOneAndUpdate(
       {},
       {
-        cashBalance: cash,
-        onlineBalance: online,
+        $set: updateField,
       },
       {
         new: true,
@@ -85,7 +92,10 @@ export const setBalance = async (req, res) => {
     res.status(200).json({
       success: true,
 
-      message: "Balance set successfully",
+      message:
+        type === "cash"
+          ? "Cash balance updated successfully"
+          : "Online balance updated successfully",
 
       data: {
         cashBalance: balance.cashBalance,
@@ -96,11 +106,11 @@ export const setBalance = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Set Balance Error:", error);
+    console.error("Update Balance Error:", error);
 
     res.status(500).json({
       success: false,
-      message: "Failed to set balance",
+      message: "Failed to update balance",
     });
   }
 };
