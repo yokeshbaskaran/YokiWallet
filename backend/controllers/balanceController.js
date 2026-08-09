@@ -8,7 +8,6 @@ export const getBalance = async (req, res) => {
   try {
     let balance = await Balance.findOne();
 
-    // First time application is opened
     if (!balance) {
       balance = await Balance.create({
         cashBalance: 0,
@@ -16,15 +15,14 @@ export const getBalance = async (req, res) => {
       });
     }
 
-    const totalBalance = balance.cashBalance + balance.onlineBalance;
-
     res.status(200).json({
       success: true,
 
       data: {
         cashBalance: balance.cashBalance,
         onlineBalance: balance.onlineBalance,
-        totalBalance,
+
+        totalBalance: balance.cashBalance + balance.onlineBalance,
       },
     });
   } catch (error) {
@@ -32,7 +30,7 @@ export const getBalance = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: "Failed to fetch balance",
+      message: "Failed to get balance",
     });
   }
 };
@@ -83,7 +81,7 @@ export const updateBalance = async (req, res) => {
         $set: updateField,
       },
       {
-        new: true,
+        returnDocument: "after",
         upsert: true,
         runValidators: true,
       },

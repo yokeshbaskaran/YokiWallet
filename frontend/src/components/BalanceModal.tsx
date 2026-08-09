@@ -1,109 +1,217 @@
 import axios from "axios";
 import { useState } from "react";
+
 import { LiaRupeeSignSolid } from "react-icons/lia";
+import { IoCloseOutline, IoWalletOutline } from "react-icons/io5";
+import { FaGooglePay } from "react-icons/fa6";
+
 import { API_URL } from "../context/AppContext";
+
+// ==========================================
+// TYPES
+// ==========================================
+
+type AmountType = "cash" | "online";
 
 type BalanceModalProps = {
   open: boolean;
   onClose: () => void;
-  type: "cash" | "online";
+  type: AmountType;
+  onSuccess?: () => void;
 };
 
-type AmountType = "cash" | "online";
+// ==========================================
+// COMPONENT
+// ==========================================
 
-type AmountDetails = {
-  amountType: AmountType;
-  amount: number;
-  notes: string;
-};
-
-const BalanceModal = ({ open, onClose, type }: BalanceModalProps) => {
+const BalanceModal = ({
+  open,
+  onClose,
+  type,
+  onSuccess,
+}: BalanceModalProps) => {
   const [amount, setAmount] = useState("");
-  const [notes, setNotes] = useState("");
 
-  if (!open) return null;
+  const [loading, setLoading] = useState(false);
 
-  const saveAmountBalance = async (data: AmountDetails) => {
-    try {
-      const response = await axios.post(API_URL + "/balance", data);
-      console.log("Amount balance added!", response);
+  // ========================================
+  // Don't render when closed
+  // ========================================
 
-      return response.data;
-    } catch (error) {
-      console.error("Amount balance Error:", error);
-      throw error;
-    }
+  if (!open) {
+    return null;
+  }
+
+  // ========================================
+  // CLOSE MODAL
+  // ========================================
+
+  const handleClose = () => {
+    if (loading) return;
+
+    setAmount("");
+
+    onClose();
   };
 
-  //   API Function
+  // ========================================
+  // SAVE BALANCE
+  // ========================================
+
   const handleSave = async () => {
+    // Required validation
+    if (!amount.trim()) {
+      alert("Please enter amount");
+      return;
+    }
+
+    const numericAmount = Number(amount);
+
+    // Number validation
+    if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+      alert("Amount must be greater than 0");
+
+      return;
+    }
+
     try {
-      if (!amount) {
-        alert("Enter Amount");
-        return;
-      }
+      setLoading(true);
 
-      const amountDetails = {
-        amountType: type,
-        amount: Number(amount),
-        notes,
-      };
+      // ------------------------------------
+      // Send only the selected balance type
+      // ------------------------------------
 
-      await saveAmountBalance(amountDetails);
-      alert("Amount Balance Added!");
+      const response = await axios.put(`${API_URL}/balance`, {
+        type,
+        amount: numericAmount,
+      });
+
+      console.log("Balance Updated:", response.data);
+
+      // ------------------------------------
+      // Success
+      // ------------------------------------
+
+      alert(
+        type === "cash" ? "Cash Balance Updated!" : "Online Balance Updated!",
+      );
+
+      // Clear input
+      setAmount("");
+
+      // Refresh Homepage
+      onSuccess?.();
+
+      // Close popup
       onClose();
     } catch (error) {
-      console.error("Amount balance Error!", error);
-      throw error;
+      console.error("Balance Update Error:", error);
+
+      alert(
+        // error?.response?.data?.message ||
+        "Failed to update balance",
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
+  // ========================================
+  // UI
+  // ========================================
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-45">
-      <div className="bg-white rounded-2xl w-[90%] max-w-sm p-5">
-        <h2 className="text-xl font-bold mb-5 text-center">
-          {type === "cash" ? "Add Cash Amount" : "Add Online Balance"}
-        </h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+      <div className="w-full max-w-md rounded-2xl bg-bg p-5 shadow-xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div
+              className={`flex h-11 w-11 items-center justify-center rounded-xl ${
+                type === "cash"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-blue-100 text-blue-700"
+              }`}
+            >
+              {type === "cash" ? (
+                <IoWalletOutline size={24} />
+              ) : (
+                <FaGooglePay size={28} />
+              )}
+            </div>
 
-        <div className="space-y-4">
-          {/*   Amount  */}
-          <div className="mt-4">
-            <h3 className="text-sm font-semibold text-text-muted">Amount</h3>
+            {/* Title */}
 
-            <div className="mt-2 p-2 flex items-center gap-3 border w-full rounded-md">
-              <LiaRupeeSignSolid size={20} />
-              <input
-                type="number"
-                className="w-full text-lg font-normal outline-none"
-                placeholder="Enter amount"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
+            <div>
+              <h2 className="text-xl font-semibold text-text">
+                {type === "cash" ? "Set Cash Balance" : "Set Online Balance"}
+              </h2>
+
+              <p className="mt-0.5 text-xs text-text-muted">
+                {type === "cash"
+                  ? "Set your current cash balance"
+                  : "Set your current online balance"}
+              </p>
             </div>
           </div>
 
-          <textarea
-            rows={3}
-            placeholder="Notes (optional)"
-            className="w-full border rounded-lg p-3 resize-none"
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-          />
+          {/* Close */}
+
+          <button
+            onClick={handleClose}
+            disabled={loading}
+            className="cursor-pointer rounded-full p-2 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <IoCloseOutline size={25} />
+          </button>
         </div>
 
-        <div className="flex gap-3 mt-6">
+        {/* Setting Amount button */}
+        <div className="mt-6">
+          <h3 className="text-sm font-semibold text-text-muted">
+            {type === "cash" ? "Cash Amount" : "Online Amount"}
+          </h3>
+
+          <div className="mt-2 flex w-full items-center gap-3 rounded-lg border border-border bg-bg p-3">
+            <LiaRupeeSignSolid size={22} />
+
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder={
+                type === "cash" ? "Enter cash amount" : "Enter online amount"
+              }
+              className="w-full bg-transparent text-lg outline-none font-semibold"
+              disabled={loading}
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 flex gap-3">
+          {/* Cancel */}
+
           <button
-            onClick={onClose}
-            className="flex-1 bg-gray-200 rounded-lg py-3 cursor-pointer"
+            onClick={handleClose}
+            disabled={loading}
+            className="flex-1 cursor-pointer rounded-lg bg-gray-200 py-3 font-medium text-gray-700 hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-60"
           >
             Cancel
           </button>
 
+          {/* Save */}
+
           <button
             onClick={handleSave}
-            className="flex-1 bg-primary text-white rounded-lg py-3 cursor-pointer"
+            disabled={loading}
+            className={`flex-1 cursor-pointer rounded-lg py-3 font-medium text-white disabled:cursor-not-allowed disabled:opacity-60 ${
+              type === "cash"
+                ? "bg-green-700 hover:bg-green-800"
+                : "bg-blue-700 hover:bg-blue-800"
+            }`}
           >
-            Save
+            {loading ? "Saving..." : "Save"}
           </button>
         </div>
       </div>

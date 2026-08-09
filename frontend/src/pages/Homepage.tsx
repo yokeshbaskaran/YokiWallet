@@ -1,46 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { MdDateRange } from "react-icons/md";
 import { BsCashCoin } from "react-icons/bs";
-
 import Recents from "../components/Recents";
 import { PiPlusMinusBold } from "react-icons/pi";
 import { FaGooglePay } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import BalanceModal from "../components/BalanceModal";
-import axios from "axios";
-import { API_URL } from "../context/AppContext";
+
+import { useAppContext } from "../context/AppContext";
 
 const Homepage = () => {
   const [cashOpen, setCashOpen] = useState(false);
   const [onlineOpen, setOnlineOpen] = useState(false);
 
-  const [cashBalance, setcashBalance] = useState("0");
-  const [onlineBalance, setOnlineBalance] = useState("0");
+  const { cashBalance, onlineBalance, totalBalance, fetchBalance } =
+    useAppContext();
 
   // Setting Today's date
   const [todaysDate] = useState(() => new Date());
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchBalances = async () => {
-      try {
-        const [cashRes, onlineRes] = await Promise.all([
-          axios.get(API_URL + "/balance/cash"),
-          axios.get(API_URL + "/balance/online"),
-        ]);
-
-        console.log("GET ALL Amount type:", cashRes);
-
-        setcashBalance(cashRes.data.amount);
-        setOnlineBalance(onlineRes.data.amount);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchBalances();
-  }, []);
 
   return (
     <main className="min-h-screen mb-20">
@@ -72,11 +51,11 @@ const Homepage = () => {
 
         <div className="w-full py-4 flex justify-between items-center gap-2">
           {/* Actions 1  */}
-          {/* <div className="w-full p-1 flex flex-col items-center gap-1">
+          <div className="w-full p-1 flex flex-col items-center gap-1">
             <p className="text-text-muted">Total Balance:</p>
-            <h2 className="text-2xl py-2 font-bold">Rs.1000 ₹</h2>
-            <p>metrics</p>
-          </div> */}
+            <h2 className="text-2xl py-2 font-bold">Rs.{totalBalance} ₹</h2>
+            {/* <p>metrics</p> */}
+          </div>
 
           {/* Actions 2  */}
           <div className="w-full p-1 flex flex-col items-center gap-1">
@@ -114,15 +93,17 @@ const Homepage = () => {
           </div>
 
           {/* Actions 2 */}
-          <div className="w-full p-1 flex flex-col items-center gap-1">
+          <div className="w-full p-1 flex flex-col items-center">
             <button
               onClick={() => setCashOpen(true)}
-              className="p-3 bg-green-700 rounded-md cursor-pointer"
+              className="flex flex-col items-center"
             >
-              <BsCashCoin size={25} color="white" />
-            </button>
+              <div className="w-14 h-14 rounded-lg cursor-pointer bg-green-600 flex items-center justify-center text-white">
+                <BsCashCoin size={28} />
+              </div>
 
-            <h3 className="text-sm">Add Cash Amount</h3>
+              <span className="mt-2 text-sm">Add Cash Amount</span>
+            </button>
           </div>
 
           {/* Actions 3 */}
@@ -133,7 +114,7 @@ const Homepage = () => {
             >
               <FaGooglePay size={25} color="white" />
             </button>
-            <h3 className="text-sm">Add Online Cash</h3>
+            <h3 className="text-sm">Set Online Balance</h3>
           </div>
         </div>
 
@@ -142,12 +123,14 @@ const Homepage = () => {
           open={cashOpen}
           onClose={() => setCashOpen(false)}
           type="cash"
+          onSuccess={fetchBalance}
         />
 
         <BalanceModal
           open={onlineOpen}
           onClose={() => setOnlineOpen(false)}
           type="online"
+          onSuccess={fetchBalance}
         />
       </section>
       {/* section3  */}

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +13,12 @@ type AuthUser = {
   role: string;
 } | null;
 
+type AmountBalance = {
+  cashBalance: number;
+  onlineBalance: number;
+  totalBalance: number;
+};
+
 type AppContextType = {
   dark: boolean;
   setDark: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,6 +28,11 @@ type AppContextType = {
   authUser: AuthUser | null;
   setAuthUser: React.Dispatch<React.SetStateAction<AuthUser>>;
   handleLogout: () => void;
+
+  cashBalance: number;
+  onlineBalance: number;
+  totalBalance: number;
+  fetchBalance: () => void;
 };
 
 const AppContext = createContext({} as AppContextType);
@@ -38,8 +50,30 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
     return savedTheme === "dark";
   });
 
-  //dummy Auths
+  const [cashBalance, setCashBalance] = useState(0);
+  const [onlineBalance, setOnlineBalance] = useState(0);
+  const [totalBalance, setTotalBalance] = useState(0);
 
+  const fetchBalance = async (): Promise<AmountBalance> => {
+    try {
+      const response = await axios.get(API_URL + "/balance");
+      console.log("GET AllBalance", response.data.data);
+
+      // setting amount values
+      const data = response.data.data;
+
+      setCashBalance(data.cashBalance);
+      setOnlineBalance(data.onlineBalance);
+      setTotalBalance(data.totalBalance);
+
+      return response.data;
+    } catch (error) {
+      console.error("GET AllBalance Error:", error);
+      throw error;
+    }
+  };
+
+  //dummy Auths
   const [authUser, setAuthUser] = useState<AuthUser>(() => {
     const storedUser = localStorage.getItem("authUser");
     return storedUser ? JSON.parse(storedUser) : null;
@@ -78,6 +112,12 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
     authUser,
     setAuthUser,
     handleLogout,
+
+    //expenses amount
+    cashBalance,
+    onlineBalance,
+    totalBalance,
+    fetchBalance,
   };
 
   return (

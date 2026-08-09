@@ -85,10 +85,10 @@ const Expenses = () => {
     transactionType === "expense" ? expenseCategories : incomeCategories;
 
   const payments = [
-    "Cash in hand 💵",
-    "Google Pay (GPay) 🔵📱",
-    "PhonePe 🟣📱",
-    "Debit card 💳",
+    { label: "Cash in hand 💵", value: "cash" },
+    { label: "Google Pay (GPay) 🔵📱", value: "gpay" },
+    { label: "PhonePe 🟣📱", value: "phonepe" },
+    { label: "Debit card 💳", value: "debitcard" },
   ];
 
   //function
@@ -111,14 +111,6 @@ const Expenses = () => {
       const response = await createTransaction(transaction);
       console.log(response.data);
       alert("Transaction Saved");
-
-      // const existing: TransactionType[] = JSON.parse(
-      //   localStorage.getItem("transactions") ?? "[]",
-      // );
-
-      // existing.push(transaction);
-
-      // localStorage.setItem("transactions", JSON.stringify(existing));
 
       setFormData({
         amount: "",
@@ -306,7 +298,9 @@ const Expenses = () => {
                 <option value="">Choose Payment</option>
 
                 {payments.map((pay) => (
-                  <option key={pay}>{pay}</option>
+                  <option key={pay.value} value={pay.value}>
+                    {pay.label}
+                  </option>
                 ))}
               </select>
             </div>

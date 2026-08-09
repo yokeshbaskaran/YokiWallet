@@ -20,7 +20,7 @@ const Recents = () => {
   useEffect(() => {
     const getAllTransactions = async () => {
       try {
-        const response = await axios.get(API_URL + "/");
+        const response = await axios.get(API_URL + "/transaction");
 
         // sorts the transactions based on date
         const sortedTransactions = response.data.data
