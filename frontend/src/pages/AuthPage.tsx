@@ -50,36 +50,36 @@ const AuthPage = () => {
 
   return (
     <section className="w-full h-screen flex flex-col justify-start items-center bg-bg">
-      <div className="mt-15 mb-3 flex flex-col items-center gap-2">
-        <img src="login.png" alt="logo" width={60} height={50} />
+      <div className="mt-12 mb-3 flex flex-col items-center gap-1">
+        <img src="/logo.png" alt="logo" width={60} height={50} />
 
         <h3 className="mt-3 text-text text-2xl font-medium">
           Login to your account
         </h3>
 
-        <p className="text-text-muted">Enter your details to login!</p>
+        <p className="text-sm text-text-muted">Enter your details to login!</p>
       </div>
 
-      <div className="w-85 md:w-120 mt-1 p-5 md:px-14 pt-8 pb-8 bg-bg-hover border border-border-strong rounded shado">
+      <div className="w-85 md:w-120 p-5 md:px-14 pt-4 pb-8">
         <div className="w-full flex text-text flex-col items-center gap-1">
           <div className="w-full py-2">
-            <p className="my-2 font-medium">Username:</p>
+            <p className="my-2 text-sm text-text font-medium">Username:</p>
 
             <input
               type="email"
               className="w-full px-2 py-2 border border-primary rounded"
-              placeholder="Enter email address"
+              placeholder="Enter Username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
           <div className="w-full py-2">
-            <p className="my-2 font-medium">Password:</p>
+            <p className="my-2 text-sm text-text font-medium">Password:</p>
 
             <input
               type="password"
-              className="w-full px-2 py-2 border border-primary rounded"
+              className="w-full px-2 py-2 text-sm border border-primary rounded"
               placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -93,14 +93,14 @@ const AuthPage = () => {
 
           <button
             onClick={handleUserLogin}
-            className="w-full h-10 mt-3 bg-primary hover:bg-primary-hover rounded text-white cursor-pointer"
+            className="w-full mt-3 p-3 bg-primary hover:bg-primary-hover text-lg font-semibold rounded text-white cursor-pointer"
           >
             Login
           </button>
         </div>
       </div>
 
-      <div className="p-3 flex flex-col items-center text-xs text-white">
+      <div className="p-3 flex flex-col items-center text-sm text-white">
         <h2 className="my-2 font-bold">Credentials:</h2>
         <p>YokiEditz</p>
         <p>Yoki2026</p>
