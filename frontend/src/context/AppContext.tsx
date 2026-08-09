@@ -118,23 +118,19 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
   // Fetch All Transactions
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
 
-  const getAllTransactions = async () => {
+  const getAllTransactions = useCallback(async () => {
     try {
       const response = await axios.get(API_URL + "/transaction");
-
       // Sort transactions based on date
-      const sortedTransactions = response.data.data
-        .sort(
-          (a: TransactionType, b: TransactionType) =>
-            new Date(b.date).getTime() - new Date(a.date).getTime(),
-        )
-        .slice(0, 4);
-
+      const sortedTransactions = response.data.data.sort(
+        (a: TransactionType, b: TransactionType) =>
+          new Date(b.date).getTime() - new Date(a.date).getTime(),
+      );
       setTransactions(sortedTransactions);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
   const contextValues = {
     dark,

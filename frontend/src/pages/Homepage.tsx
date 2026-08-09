@@ -152,7 +152,11 @@ const Homepage = () => {
             <FaAngleRight size={12} />
           </button>
         </div>
-        <Recents />
+
+        {/* Most Recents transactions  */}
+        <div>
+          <Recents />
+        </div>
       </div>
       {/* section4  */}
     </main>

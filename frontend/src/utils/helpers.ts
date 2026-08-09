@@ -25,7 +25,7 @@ export const expenseCategories = [
     { label: "Bills 💡", value: "bills" },
     { label: "Travel 🚕", value: "travel" },
     { label: "Medical 💊", value: "medical" },
-    { label: "Others", value: "others" },
+    { label: "Others 🛒", value: "others" },
 ];
 
 // Income Categories
@@ -38,7 +38,7 @@ export const incomeCategories = [
     { label: "Cashback 💰", value: "cashback" },
     { label: "Interest 🏦", value: "interest" },
     { label: "Freelancing 🧑‍💻", value: "freelancing" },
-    { label: "Others", value: "others" },
+    { label: "Others 🪙", value: "others" },
 ];
 
 
@@ -47,4 +47,17 @@ export const getCategoryLabel = (category: string, type: "income" | "expense") =
     const categories = type === "expense" ? expenseCategories : incomeCategories;
 
     return categories.find((item) => item.value === category)?.label || category;
+};
+
+
+const payments = [
+    { label: "Cash in hand 💵", value: "cash" },
+    { label: "Google Pay (GPay) 🔵📱", value: "gpay" },
+    { label: "PhonePe 🟣📱", value: "phonepe" },
+    { label: "Debit card 💳", value: "debit_card" },
+];
+
+// Get payment label from value
+export const getPaymentLabel = (payment: string) => {
+    return payments.find((item) => item.value === payment)?.label || payment;
 };
