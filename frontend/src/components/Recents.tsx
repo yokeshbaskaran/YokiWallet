@@ -1,50 +1,14 @@
-import axios from "axios";
-import { API_URL } from "../context/AppContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
-import { expenseCategories, incomeCategories } from "../utils/helpers";
-
-type Transaction = {
-  _id: string;
-  type: "income" | "expense";
-  amount: number;
-  category: string;
-  payment: string;
-  date: string;
-  notes?: string;
-};
-
-// Get category label from value
-const getCategoryLabel = (category: string, type: "income" | "expense") => {
-  const categories = type === "expense" ? expenseCategories : incomeCategories;
-
-  return categories.find((item) => item.value === category)?.label || category;
-};
+import { getCategoryLabel } from "../utils/helpers";
+import { useAppContext } from "../context/AppContext";
 
 const Recents = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const { transactions, getAllTransactions } = useAppContext();
 
   useEffect(() => {
-    const getAllTransactions = async () => {
-      try {
-        const response = await axios.get(API_URL + "/transaction");
-
-        // Sort transactions based on date
-        const sortedTransactions = response.data.data
-          .sort(
-            (a: Transaction, b: Transaction) =>
-              new Date(b.date).getTime() - new Date(a.date).getTime(),
-          )
-          .slice(0, 4);
-
-        setTransactions(sortedTransactions);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     getAllTransactions();
-  }, []);
+  }, [getAllTransactions]);
 
   return (
     <section>
@@ -54,7 +18,7 @@ const Recents = () => {
             No Transactions Found
           </div>
         ) : (
-          transactions.map((item) => {
+          transactions.slice(0, 4).map((item) => {
             const categoryLabel = getCategoryLabel(item.category, item.type);
 
             return (
