@@ -8,6 +8,7 @@ import { FaAmazonPay } from "react-icons/fa6";
 import { CgNotes } from "react-icons/cg";
 import { API_URL, useAppContext } from "../context/AppContext";
 import axios from "axios";
+import { expenseCategories, incomeCategories } from "../utils/helpers";
 
 //types
 type TransactionMode = "income" | "expense";
@@ -24,9 +25,11 @@ type TransactionType = {
 
 const createTransaction = async (transactionData: TransactionType) => {
   try {
-    const response = await axios.post(API_URL + "/", transactionData);
-    console.log("Transaction created!", response);
-
+    const response = await axios.post(
+      API_URL + "/transaction",
+      transactionData,
+    );
+    // console.log("New transaction created!", response);
     return response.data;
   } catch (error) {
     console.error("Create Transaction Error:", error);
@@ -52,35 +55,6 @@ const Expenses = () => {
     notes: "",
   });
 
-  //datas for Categories
-  const expenseCategories = [
-    "Dress & Accessories 👕",
-    "Petrol / Diesel ⛽",
-    "Food & Snacks 🍔",
-    "Entertainment - Movie 🎬",
-    "Withdraw Money 💳",
-    "Bought Accessories 🛍️",
-    "Online Web Shopping 🛒",
-    "Amount lent 🚨",
-    "Maintenance & Repair 🧰",
-    "Bills 💡",
-    "Travel 🚕",
-    "Medical 💊",
-    "Others",
-  ];
-
-  const incomeCategories = [
-    "Salary 💼",
-    "Gift 🎁",
-    "Bonus 🪙",
-    "Lent Amount 💵",
-    "Service charge 🛠️",
-    "Cashback 💰",
-    "Interest 🏦",
-    "Freelancing 🧑‍💻",
-    "Others",
-  ];
-
   const categories =
     transactionType === "expense" ? expenseCategories : incomeCategories;
 
@@ -88,7 +62,7 @@ const Expenses = () => {
     { label: "Cash in hand 💵", value: "cash" },
     { label: "Google Pay (GPay) 🔵📱", value: "gpay" },
     { label: "PhonePe 🟣📱", value: "phonepe" },
-    { label: "Debit card 💳", value: "debitcard" },
+    { label: "Debit card 💳", value: "debit_card" },
   ];
 
   //function
@@ -128,16 +102,9 @@ const Expenses = () => {
         console.log("Something went wrong!!!");
       }
     }
-    // } catch (error) {
-    //   console.log(error);
-    //   console.log(error.response);
-
-    //   alert(
-    //     error.response?.data?.message || "Something went wrong while saving.",
-    //   );
-    // }
   };
 
+  // UI design for EXPENSE Page starts here.
   return (
     <>
       <section className="min-h-screen mb-8">
@@ -237,8 +204,8 @@ const Expenses = () => {
                 <option value="">Select Category</option>
 
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                  <option key={category.value} value={category.value}>
+                    {category.label}
                   </option>
                 ))}
               </select>

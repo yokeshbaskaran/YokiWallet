@@ -3,6 +3,7 @@ import { API_URL } from "../context/AppContext";
 import { useEffect, useState } from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { FaAngleRight } from "react-icons/fa6";
+import { expenseCategories, incomeCategories } from "../utils/helpers";
 
 type Transaction = {
   _id: string;
@@ -14,6 +15,13 @@ type Transaction = {
   notes?: string;
 };
 
+// Get category label from value
+const getCategoryLabel = (category: string, type: "income" | "expense") => {
+  const categories = type === "expense" ? expenseCategories : incomeCategories;
+
+  return categories.find((item) => item.value === category)?.label || category;
+};
+
 const Recents = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
@@ -22,7 +30,7 @@ const Recents = () => {
       try {
         const response = await axios.get(API_URL + "/transaction");
 
-        // sorts the transactions based on date
+        // Sort transactions based on date
         const sortedTransactions = response.data.data
           .sort(
             (a: Transaction, b: Transaction) =>
@@ -40,12 +48,12 @@ const Recents = () => {
   }, []);
 
   return (
-    <section className="mt-6">
-      <div className="flex items-center justify-between mb-3">
+    <section>
+      <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Recent Transactions</h2>
 
         <button className="text-primary text-sm font-medium flex items-center gap-1 cursor-pointer">
-          <span> See All</span>
+          <span>See All</span>
           <FaAngleRight size={12} className="mt-1" />
         </button>
       </div>
@@ -56,46 +64,53 @@ const Recents = () => {
             No Transactions Found
           </div>
         ) : (
-          transactions.map((item) => (
-            <div
-              key={item._id}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex justify-between items-center"
-            >
-              <div className="flex gap-3">
+          transactions.map((item) => {
+            const categoryLabel = getCategoryLabel(item.category, item.type);
+
+            return (
+              <div
+                key={item._id}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex justify-between items-center"
+              >
+                <div className="flex gap-3">
+                  <div
+                    className={`w-12 h-12 rounded-md flex items-center justify-center text-xl ${
+                      item.type === "expense" ? "bg-red-100" : "bg-green-100"
+                    }`}
+                  >
+                    {categoryLabel.split(" ").pop()}
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold">{categoryLabel}</h3>
+
+                    {/* Payment method */}
+                    {/* <p className="text-sm text-gray-500">
+                      {item.payment}
+                    </p> */}
+
+                    <p className="text-xs font-semibold text-gray-400">
+                      {new Date(item.date)
+                        .toLocaleDateString("en-GB")
+                        .replace(/\//g, ".")}
+                    </p>
+                  </div>
+                </div>
+
                 <div
-                  className={`w-12 h-12 rounded-md flex items-center justify-center text-xl ${
-                    item.type === "expense" ? "bg-red-100" : "bg-green-100"
+                  className={`flex items-center font-bold text-lg ${
+                    item.type === "expense" ? "text-red-600" : "text-green-600"
                   }`}
                 >
-                  {item.category.split(" ").pop()}
-                </div>
+                  {item.type === "expense" ? "-" : "+"}
 
-                <div>
-                  <h3 className="font-semibold">{item.category}</h3>
+                  <LiaRupeeSignSolid />
 
-                  {/* <p className="text-sm text-gray-500">{item.payment}</p> */}
-
-                  <p className="text-xs font-semibold text-gray-400">
-                    {new Date(item.date)
-                      .toLocaleDateString("en-GB")
-                      .replace(/\//g, ".")}
-                  </p>
+                  {item.amount}
                 </div>
               </div>
-
-              <div
-                className={`flex items-center font-bold text-lg ${
-                  item.type === "expense" ? "text-red-600" : "text-green-600"
-                }`}
-              >
-                {item.type === "expense" ? "-" : "+"}
-
-                <LiaRupeeSignSolid />
-
-                {item.amount}
-              </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
     </section>
