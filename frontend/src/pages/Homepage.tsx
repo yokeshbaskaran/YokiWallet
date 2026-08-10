@@ -50,29 +50,29 @@ const Homepage = () => {
       {/* section2  */}
       {/* Amount Details  */}
 
-      <section className="my-3 p-2 border border-border bg-bg-hover rounded-md">
+      <section className="my-3 border border-border bg-bg-hover rounded-md">
         {/* Container  */}
 
-        <div className="w-full py-4 flex justify-between items-center gap-2">
+        <div className="w-[90%] mx-auto py-4 flex justify-between items-center gap-2">
           {/* Actions 1  */}
           <div className="w-full p-1 flex flex-col items-center gap-1">
-            <p className="text-text-muted">Total Balance:</p>
+            <p className="text-sm text-text-muted">Total Balance:</p>
             <h2 className="text-2xl py-2 font-bold">Rs.{totalBalance} ₹</h2>
             {/* <p>metrics</p> */}
           </div>
 
           {/* Actions 2  */}
           <div className="w-full p-1 flex flex-col items-center gap-1">
-            <p className="text-text-muted">Cash in hand:</p>
-            <h2 className="text-xl py-2 font-bold">Rs.{cashBalance} ₹</h2>
+            <p className="text-sm text-text-muted">Cash in hand:</p>
+            <h2 className="text-lg py-2 font-bold">Rs.{cashBalance} ₹</h2>
             {/* <p>metrics</p> */}
           </div>
 
           {/* Actions 3  */}
 
           <div className="w-full p-1 flex flex-col items-center gap-1">
-            <p className="text-text-muted">Online Balance:</p>
-            <h2 className="text-xl py-2 font-bold">Rs.{onlineBalance} ₹</h2>
+            <p className="text-sm text-text-muted">Online Balance:</p>
+            <h2 className="text-lg py-2 font-bold">Rs.{onlineBalance} ₹</h2>
             {/* <p>metrics</p> */}
           </div>
         </div>
