@@ -32,10 +32,10 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
       <>
         <section
           key={_id}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex justify-between items-center"
+          className="bg-white rounded shadow-sm border border-border-strong p-3 flex justify-between items-center"
         >
           {/* 1.  Details  */}
-          <div className="flex gap-3 yoki">
+          <div className="flex gap-3">
             {/* icon  */}
             <div
               className={`w-12 h-12 rounded-md flex items-center justify-center text-xl ${
@@ -48,38 +48,29 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
             {/* Expense category and Date */}
             <div>
               <h3 className="font-semibold text-lg">{categoryLabel}</h3>
-              <p className="text-sm font-medium text-gray-400">
+              <p className="text-sm font-medium text-primary">
                 {new Date(date).toLocaleDateString("en-GB").replace(/\//g, ".")}
               </p>
 
-              <p className="text-sm ">{notes}</p>
+              <p className="my-1 text-xs text-text-muted">{notes}</p>
             </div>
           </div>
 
           {/* 2. Expense Details  */}
-          <div className="yokii flex flex-col items-end">
+          <div className="flex flex-col items-end">
             <div
-              className={`yoki flex items-center font-bold text-lg  ${
+              className={`flex items-center font-bold text-xl  ${
                 type === "expense" ? "text-red-600" : "text-green-600"
               }`}
             >
-              {type === "expense" ? "-" : "+"}
-              <LiaRupeeSignSolid size={20} />
-              {amount}
+              <span> {type === "expense" ? "-" : "+"}</span>
+              <span> {amount}</span>
+              <span className="mt-1">
+                <LiaRupeeSignSolid size={20} />
+              </span>
             </div>
 
-            <div className="text-xs">
-              {paymentLabel}
-              {/* {paymentLabel.split(" ").pop() === "💳"
-                ? "Debit Card 💳"
-                : paymentLabel === "🟣📱"
-                  ? "PhonePe 🟣📱"
-                  : paymentLabel === "🔵📱"
-                    ? "GPay 🔵📱"
-                    : paymentLabel === "💵"
-                      ? "Cash 💵"
-                      : paymentLabel} */}
-            </div>
+            <div className="text-xs">{paymentLabel}</div>
           </div>
         </section>
       </>

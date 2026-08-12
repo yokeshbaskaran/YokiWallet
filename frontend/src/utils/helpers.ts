@@ -19,6 +19,7 @@ export const expenseCategories = [
     { label: "Entertainment - Movie 🎬", value: "entertainment_movie" },
     { label: "Withdraw Money 💳", value: "withdraw_money" },
     { label: "Bought Accessories 🛍️", value: "bought_accessories" },
+    { label: "Grocery shopping 🧺", value: "groceries" },
     { label: "Online Web Shopping 🛒", value: "online_web_shopping" },
     { label: "Amount lent 🚨", value: "amount_lent" },
     { label: "Maintenance & Repair 🧰", value: "maintenance_repair" },
@@ -31,11 +32,9 @@ export const expenseCategories = [
 // Income Categories
 export const incomeCategories = [
     { label: "Salary 💼", value: "salary" },
-    { label: "Gift 🎁", value: "gift" },
-    { label: "Bonus 🪙", value: "bonus" },
-    { label: "Lent Amount 💵", value: "lent_amount" },
     { label: "Service charge 🛠️", value: "service_charge" },
-    { label: "Cashback 💰", value: "cashback" },
+    { label: "Lent Amount 💵", value: "lent_amount" },
+    { label: "Cashback 🪙", value: "cashback" },
     { label: "Interest 🏦", value: "interest" },
     { label: "Freelancing 🧑‍💻", value: "freelancing" },
     { label: "Others 🪙", value: "others" },
