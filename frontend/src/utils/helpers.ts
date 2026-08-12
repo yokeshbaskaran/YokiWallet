@@ -49,15 +49,50 @@ export const getCategoryLabel = (category: string, type: "income" | "expense") =
     return categories.find((item) => item.value === category)?.label || category;
 };
 
-
-const payments = [
+//for expense page
+export const payments = [
     { label: "Cash in hand 💵", value: "cash" },
     { label: "Google Pay (GPay) 🔵📱", value: "gpay" },
     { label: "PhonePe 🟣📱", value: "phonepe" },
     { label: "Debit card 💳", value: "debit_card" },
 ];
 
-// Get payment label from value
+// Get payment type for Single transaction
 export const getPaymentLabel = (payment: string) => {
-    return payments.find((item) => item.value === payment)?.label || payment;
+    const paymentLabels: Record<string, string> = {
+        debit_card: "Debit Card 💳",
+        phonepe: "PhonePe 🟣📱",
+        gpay: "GPay 🔵📱",
+        cash: "Cash 💵",
+    };
+    // console.log("payment-type:", payment);
+    return paymentLabels[payment] || payment;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

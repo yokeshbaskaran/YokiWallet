@@ -56,22 +56,30 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
             </div>
           </div>
 
-          {/* 2. Payment Method  */}
-          <div
-          //   className="yokii"
-          >
-            {paymentLabel.split(" ").pop()}
-          </div>
+          {/* 2. Expense Details  */}
+          <div className="yokii flex flex-col items-end">
+            <div
+              className={`yoki flex items-center font-bold text-lg  ${
+                type === "expense" ? "text-red-600" : "text-green-600"
+              }`}
+            >
+              {type === "expense" ? "-" : "+"}
+              <LiaRupeeSignSolid size={20} />
+              {amount}
+            </div>
 
-          {/* 3. Expense Details  */}
-          <div
-            className={`yoki flex items-center font-bold text-lg  ${
-              type === "expense" ? "text-red-600" : "text-green-600"
-            }`}
-          >
-            {type === "expense" ? "-" : "+"}
-            <LiaRupeeSignSolid size={20} />
-            {amount}
+            <div className="text-xs">
+              {paymentLabel}
+              {/* {paymentLabel.split(" ").pop() === "💳"
+                ? "Debit Card 💳"
+                : paymentLabel === "🟣📱"
+                  ? "PhonePe 🟣📱"
+                  : paymentLabel === "🔵📱"
+                    ? "GPay 🔵📱"
+                    : paymentLabel === "💵"
+                      ? "Cash 💵"
+                      : paymentLabel} */}
+            </div>
           </div>
         </section>
       </>

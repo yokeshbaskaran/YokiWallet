@@ -8,7 +8,11 @@ import { FaAmazonPay } from "react-icons/fa6";
 import { CgNotes } from "react-icons/cg";
 import { API_URL, useAppContext } from "../context/AppContext";
 import axios from "axios";
-import { expenseCategories, incomeCategories } from "../utils/helpers";
+import {
+  payments,
+  expenseCategories,
+  incomeCategories,
+} from "../utils/helpers";
 
 //types
 type TransactionMode = "income" | "expense";
@@ -47,6 +51,9 @@ const Expenses = () => {
   const [transactionType, setTransactionType] =
     useState<TransactionMode>("expense");
 
+  // for disables the save expense button
+  const [savingData, setSavingData] = useState(false);
+
   const [formData, setFormData] = useState({
     amount: "",
     category: "",
@@ -58,19 +65,14 @@ const Expenses = () => {
   const categories =
     transactionType === "expense" ? expenseCategories : incomeCategories;
 
-  const payments = [
-    { label: "Cash in hand 💵", value: "cash" },
-    { label: "Google Pay (GPay) 🔵📱", value: "gpay" },
-    { label: "PhonePe 🟣📱", value: "phonepe" },
-    { label: "Debit card 💳", value: "debit_card" },
-  ];
-
   //function
   const handleSaveButton = async () => {
     if (!formData.amount || !formData.category || !formData.payment) {
       alert("Please fill all required fields");
       return;
     }
+
+    setSavingData(true);
 
     try {
       const transaction = {
@@ -101,6 +103,8 @@ const Expenses = () => {
       } else {
         console.log("Something went wrong!!!");
       }
+    } finally {
+      setSavingData(false);
     }
   };
 
@@ -298,10 +302,13 @@ const Expenses = () => {
 
           {/* Save to DB  */}
           <button
+            disabled={savingData}
             onClick={handleSaveButton}
-            className="mt-3 w-full p-2 bg-primary text-white rounded-md cursor-pointer hover:opacity-90"
+            className={`mt-3 w-full p-2 bg-primary text-white rounded-md cursor-pointer hover:opacity-90 ${
+              savingData ? "opacity-75 cursor-not-allowed" : ""
+            }`}
           >
-            Save Expense
+            {savingData ? "Saving..." : "Save Expense"}
           </button>
         </section>
       </section>
