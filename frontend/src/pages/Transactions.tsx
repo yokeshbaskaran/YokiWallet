@@ -2,6 +2,8 @@ import { IoArrowBackSharp } from "react-icons/io5";
 import { useAppContext } from "../context/AppContext";
 import SingleTransaction from "../components/SingleTransaction";
 import { useEffect } from "react";
+import { GoSearch } from "react-icons/go";
+import { TbFilterDollar } from "react-icons/tb";
 
 const Transactions = () => {
   // functions and states
@@ -30,8 +32,31 @@ const Transactions = () => {
           </h3>
         </section>
 
-        {/* 2. List of single transactions  */}
+        {/* 2. Transactions */}
+
         <section className="mx-2 my-5">
+          {/* i) Search items */}
+          <div className="my-5 flex justify-between items-center gap-2">
+            <div className="mt-2 px-3 py-3 flex flex-1 items-center gap-3 border border-border rounded-md">
+              <GoSearch size={21} />
+              <input
+                type="text"
+                className="w-full text-base font-normal outline-none"
+                placeholder="Enter amount"
+                // value={formData.amount}
+                // onChange={(e) =>
+                //   setFormData({ ...formData, amount: e.target.value })
+                //}
+              />
+            </div>
+
+            <button className="mt-2 px-3 py-3 border border-border-strong rounded cursor-pointer">
+              <TbFilterDollar size={21} color="#B53F44" />
+            </button>
+          </div>
+
+          {/* ii) List of single transactions  */}
+
           <div>
             {transactions.length === 0 ? (
               <div className="text-center py-10 text-gray-500">
