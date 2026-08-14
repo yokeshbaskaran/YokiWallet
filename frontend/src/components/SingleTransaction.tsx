@@ -32,7 +32,7 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
       <>
         <section
           key={_id}
-          className="bg-white rounded shadow-sm border border-border-strong p-3 flex justify-between items-center"
+          className="bg-white rounded-md shadow-sm border border-border p-3 flex justify-between items-center"
         >
           {/* 1.  Details  */}
           <div className="flex gap-3">
