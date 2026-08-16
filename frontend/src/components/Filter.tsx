@@ -82,6 +82,7 @@ const formatPayment = (payment: string) => {
     .join(" ");
 };
 
+// *** FILTER Page starts here ***
 const Filter = ({
   setShowFilters,
   category,
