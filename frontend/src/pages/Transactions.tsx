@@ -1,24 +1,22 @@
 import {
   IoArrowBackSharp,
-  IoClose,
   IoOptionsOutline,
   IoSearchOutline,
 } from "react-icons/io5";
 import { useAppContext } from "../context/AppContext";
 import SingleTransaction from "../components/SingleTransaction";
 import { useEffect, useMemo, useState } from "react";
+import Filter from "../components/Filter";
 
 const Transactions = () => {
   // functions and states
   const { pathToHome, transactions, getAllTransactions } = useAppContext();
 
   const [showFilters, setShowFilters] = useState(false);
-
   const [search, setSearch] = useState("");
 
   // Quick filter
   const [transactionType, setTransactionType] = useState("all");
-
   // Advanced filters
   const [category, setCategory] = useState("all");
   const [payment, setPayment] = useState("all");
@@ -28,7 +26,6 @@ const Transactions = () => {
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
   // Sort
   const [sortBy, setSortBy] = useState("date");
 
@@ -37,10 +34,8 @@ const Transactions = () => {
   }, [getAllTransactions]);
 
   // Sorting by
-  // -----------------------------
-  // Get unique categories
-  // -----------------------------
 
+  // Get unique categories
   const categories = useMemo(() => {
     const values = transactions
       .map((transaction) => transaction.category)
@@ -49,10 +44,7 @@ const Transactions = () => {
     return [...new Set(values)];
   }, [transactions]);
 
-  // -----------------------------
   // Get unique payment methods
-  // -----------------------------
-
   const payments = useMemo(() => {
     const values = transactions
       .map((transaction) => transaction.payment)
@@ -61,10 +53,7 @@ const Transactions = () => {
     return [...new Set(values)];
   }, [transactions]);
 
-  // -----------------------------
   // Filter + Sort
-  // -----------------------------
-
   const filteredTransactions = useMemo(() => {
     let result = [...transactions];
 
@@ -171,10 +160,7 @@ const Transactions = () => {
     sortBy,
   ]);
 
-  // -----------------------------
   // Reset filters
-  // -----------------------------
-
   const resetFilters = () => {
     setTransactionType("all");
     setCategory("all");
@@ -304,13 +290,9 @@ const Transactions = () => {
             bg-white text-sm outline-none"
             >
               <option value="date">Newest</option>
-
               <option value="category">Category</option>
-
-              <option value="payment">Payment</option>
-
+              {/* <option value="payment">Payment</option> */}
               <option value="amount-high">Amount: High</option>
-
               <option value="amount-low">Amount: Low</option>
             </select>
           </div>
@@ -342,276 +324,31 @@ const Transactions = () => {
         {/* Filter Popup button  */}
 
         {showFilters && (
-          <div className="fixed inset-0 z-50">
-            {/* Overlay */}
-
-            <div
-              onClick={() => setShowFilters(false)}
-              className="absolute inset-0
-                    bg-black/40"
-            />
-
-            {/* Bottom Sheet */}
-
-            <div
-              className="yokiii absolute bottom-0
-                    left-0 right-0
-                    bg-white rounded-t-2xl
-                    max-h-[90vh]
-                    overflow-y-auto
-                    shadow-2xl scrollbar-none"
-            >
-              {/* Header */}
-
-              <div
-                className="flex items-center
-                      justify-between
-                      px-5 py-3
-                      border-b border-border yoki"
-              >
-                <h2 className="text-xl font-semibold">Filters</h2>
-
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={resetFilters}
-                    className="px-3 py-2 text-base text-primary
-                          font-medium cursor-pointer border border-border-strong rounded-lg hover:text-primary-light hover:bg-primary"
-                  >
-                    Reset
-                  </button>
-
-                  <button
-                    onClick={() => setShowFilters(false)}
-                    className="p-2 rounded-full
-                          hover:bg-gray-100 cursor-pointer"
-                  >
-                    <IoClose size={22} />
-                  </button>
-                </div>
-              </div>
-
-              <div className="px-5 py-5 space-y-7">
-                {/* TRANSACTION TYPE */}
-
-                <div>
-                  <h3 className="font-semibold mb-3">Transaction Type</h3>
-
-                  <div className="flex gap-2 flex-wrap">
-                    <FilterChip
-                      active={transactionType === "all"}
-                      onClick={() => setTransactionType("all")}
-                    >
-                      ☰ All
-                    </FilterChip>
-
-                    <FilterChip
-                      active={transactionType === "income"}
-                      onClick={() => setTransactionType("income")}
-                    >
-                      ↓ Earn
-                    </FilterChip>
-
-                    <FilterChip
-                      active={transactionType === "expense"}
-                      onClick={() => setTransactionType("expense")}
-                    >
-                      ↑ Spend
-                    </FilterChip>
-                  </div>
-                </div>
-
-                {/* 
-                          CATEGORY
-                      = */}
-
-                <div>
-                  <h3 className="font-semibold mb-3">Category</h3>
-
-                  <div className="flex gap-2 flex-wrap">
-                    <FilterChip
-                      active={category === "all"}
-                      onClick={() => setCategory("all")}
-                    >
-                      All
-                    </FilterChip>
-
-                    {categories.map((item) => (
-                      <FilterChip
-                        key={item}
-                        active={category === item}
-                        onClick={() => setCategory(item)}
-                      >
-                        {formatCategory(item)}
-                      </FilterChip>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 
-                          PAYMENT
-                      = */}
-
-                <div>
-                  <h3 className="font-semibold mb-3">Payment</h3>
-
-                  <div className="flex gap-2 flex-wrap">
-                    <FilterChip
-                      active={payment === "all"}
-                      onClick={() => setPayment("all")}
-                    >
-                      All
-                    </FilterChip>
-
-                    {payments.map((item) => (
-                      <FilterChip
-                        key={item}
-                        active={payment === item}
-                        onClick={() => setPayment(item)}
-                      >
-                        {formatPayment(item)}
-                      </FilterChip>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 
-                          AMOUNT
-                      = */}
-
-                <div>
-                  <h3 className="font-semibold mb-3">Amount</h3>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <input
-                      type="number"
-                      placeholder="Min amount"
-                      value={minAmount}
-                      onChange={(e) => setMinAmount(e.target.value)}
-                      className="border border-border
-                            rounded-xl px-4 py-3
-                            outline-none"
-                    />
-
-                    <input
-                      type="number"
-                      placeholder="Max amount"
-                      value={maxAmount}
-                      onChange={(e) => setMaxAmount(e.target.value)}
-                      className="border border-border
-                            rounded-xl px-4 py-3
-                            outline-none"
-                    />
-                  </div>
-                </div>
-
-                {/* 
-                          DATE RANGE
-                      = */}
-
-                <div>
-                  <h3 className="font-semibold mb-3">Date Range</h3>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label
-                        className="text-xs
-                              text-text-muted"
-                      >
-                        Start Date
-                      </label>
-
-                      <input
-                        type="date"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                        className="w-full
-                              border border-border
-                              rounded-xl px-3 py-3
-                              mt-1 outline-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        className="text-xs
-                              text-text-muted"
-                      >
-                        End Date
-                      </label>
-
-                      <input
-                        type="date"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        className="w-full
-                              border border-border
-                              rounded-xl px-3 py-3
-                              mt-1 outline-none"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* 
-                          APPLY
-                      = */}
-
-                <button
-                  onClick={() => setShowFilters(false)}
-                  className="w-full py-4
-                        rounded-2xl
-                        bg-primary text-white
-                        font-semibold
-                        hover:opacity-90
-                        cursor-pointer"
-                >
-                  Apply Filters ({filteredTransactions.length})
-                </button>
-              </div>
-            </div>
-          </div>
+          <Filter
+            setShowFilters={setShowFilters}
+            category={category}
+            payment={payment}
+            minAmount={minAmount}
+            maxAmount={maxAmount}
+            startDate={startDate}
+            endDate={endDate}
+            transactionType={transactionType}
+            setTransactionType={setTransactionType}
+            setCategory={setCategory}
+            setPayment={setPayment}
+            setMinAmount={setMinAmount}
+            setMaxAmount={setMaxAmount}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            resetFilters={resetFilters}
+            categories={categories}
+            payments={payments}
+            filteredTransactions={filteredTransactions}
+          />
         )}
       </main>
     </>
   );
-};
-
-// FILTER CHIP COMPONENT
-const FilterChip = ({ children, active, onClick }) => {
-  return (
-    <button
-      onClick={onClick}
-      className={`px-4 py-2.5
-        rounded-full border
-        text-sm font-medium
-        whitespace-nowrap
-        cursor-pointer
-        transition
-        ${
-          active
-            ? "border-primary bg-primary/10 text-primary"
-            : "border-gray-300 bg-white text-text"
-        }`}
-    >
-      {children}
-    </button>
-  );
-};
-
-// FORMAT CATEGORY
-const formatCategory = (category) => {
-  return category
-    .split("_")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-};
-
-// FORMAT PAYMENT
-const formatPayment = (payment) => {
-  return payment
-    .split("_")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
 };
 
 export default Transactions;
