@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FcMoneyTransfer } from "react-icons/fc";
-import { MdDateRange } from "react-icons/md";
 import { BsCashCoin, BsCurrencyRupee } from "react-icons/bs";
 import Recents from "../components/Recents";
 import { PiCalendarHeart, PiPlusMinusBold } from "react-icons/pi";
@@ -31,7 +30,7 @@ const Homepage = () => {
       <section className="flex justify-between gap-2">
         <div className="flex items-center gap-2">
           <h2 className="text-primary text-2xl font-bold">
-            Yoki<span className="text-text pl-0.5">Wallet</span>
+            <span className="text-text pl-0.5">Wallet</span>
           </h2>
           <FcMoneyTransfer size={23} className="mt-1" />
         </div>
@@ -54,7 +53,7 @@ const Homepage = () => {
         <div className="py-4 flex justify-between items-center gap-2">
           {/* Actions 1  */}
 
-          <div className="w-full yoki p-1 flex flex-col items-center gap-1">
+          <div className="w-full p-1 flex flex-col items-center gap-1">
             <p className="text-sm text-text-muted">Total Balance</p>
             <div className="flex items-center gap-1">
               <p className="text-2xl py-2 font-bold">Rs.{totalBalance} </p>
@@ -63,7 +62,7 @@ const Homepage = () => {
           </div>
 
           {/* Actions 2  */}
-          <div className="w-full yoki p-1 flex flex-col items-center gap-1">
+          <div className="w-full p-1 flex flex-col items-center gap-1">
             <p className="text-sm text-text-muted">Cash in hand</p>
             <div className="flex items-center gap-1">
               <p className="text-xl py-2 font-bold">Rs.{cashBalance} </p>
@@ -72,7 +71,7 @@ const Homepage = () => {
           </div>
 
           {/* Actions 3  */}
-          <div className="w-full yoki p-1 flex flex-col items-center gap-1">
+          <div className="w-full p-1 flex flex-col items-center gap-1">
             <p className="text-sm text-text-muted">Online Balance</p>
             <div className="flex items-center gap-1">
               <p className="text-xl py-2 font-bold">Rs.{onlineBalance} </p>
