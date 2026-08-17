@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { MdDateRange } from "react-icons/md";
-import { BsCashCoin } from "react-icons/bs";
+import { BsCashCoin, BsCurrencyRupee } from "react-icons/bs";
 import Recents from "../components/Recents";
-import { PiPlusMinusBold } from "react-icons/pi";
+import { PiCalendarHeart, PiPlusMinusBold } from "react-icons/pi";
 import { FaAngleRight, FaGooglePay } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import BalanceModal from "../components/BalanceModal";
@@ -27,53 +27,57 @@ const Homepage = () => {
 
   return (
     <main className="min-h-screen mb-20">
-      {/* section1  */}
+      {/* section1 = Logo & Header */}
       <section className="flex justify-between gap-2">
         <div className="flex items-center gap-2">
-          <h2 className="text-primary text-xl font-semibold">
+          <h2 className="text-primary text-2xl font-bold">
             Yoki<span className="text-text pl-0.5">Wallet</span>
           </h2>
           <FcMoneyTransfer size={23} className="mt-1" />
         </div>
 
-        <div className="px-2 py-1 text-sm flex items-center gap-2 border-2 rounded-md border-border-strong">
-          <MdDateRange size={19} className="mt-1" />
+        <div className="px-2 py-2 text-sm flex items-center gap-2 border-2 rounded-md border-border-strong">
+          <PiCalendarHeart size={20} className="mt-1" color="#E91E63" />
           {todaysDate.toLocaleString("en-IN", {
             // day: "2-digit",
+            day: "numeric" as const,
             month: "short" as const,
             year: "numeric" as const,
           })}
         </div>
       </section>
-      {/* section1  */}
 
-      {/* section2  */}
-      {/* Amount Details  */}
-
+      {/* section2  = Amount Details */}
       <section className="my-3 border border-border bg-bg-hover rounded-md">
         {/* Container  */}
 
-        <div className="w-[90%] mx-auto py-4 flex justify-between items-center gap-2">
+        <div className="py-4 flex justify-between items-center gap-2">
           {/* Actions 1  */}
-          <div className="w-full p-1 flex flex-col items-center gap-1">
-            <p className="text-sm text-text-muted">Total Balance:</p>
-            <h2 className="text-2xl py-2 font-bold">Rs.{totalBalance} ₹</h2>
-            {/* <p>metrics</p> */}
+
+          <div className="w-full yoki p-1 flex flex-col items-center gap-1">
+            <p className="text-sm text-text-muted">Total Balance</p>
+            <div className="flex items-center gap-1">
+              <p className="text-2xl py-2 font-bold">Rs.{totalBalance} </p>
+              <BsCurrencyRupee size={20} />
+            </div>
           </div>
 
           {/* Actions 2  */}
-          <div className="w-full p-1 flex flex-col items-center gap-1">
-            <p className="text-sm text-text-muted">Cash in hand:</p>
-            <h2 className="text-lg py-2 font-bold">Rs.{cashBalance} ₹</h2>
-            {/* <p>metrics</p> */}
+          <div className="w-full yoki p-1 flex flex-col items-center gap-1">
+            <p className="text-sm text-text-muted">Cash in hand</p>
+            <div className="flex items-center gap-1">
+              <p className="text-xl py-2 font-bold">Rs.{cashBalance} </p>
+              <BsCurrencyRupee size={20} />
+            </div>
           </div>
 
           {/* Actions 3  */}
-
-          <div className="w-full p-1 flex flex-col items-center gap-1">
-            <p className="text-sm text-text-muted">Online Balance:</p>
-            <h2 className="text-lg py-2 font-bold">Rs.{onlineBalance} ₹</h2>
-            {/* <p>metrics</p> */}
+          <div className="w-full yoki p-1 flex flex-col items-center gap-1">
+            <p className="text-sm text-text-muted">Online Balance</p>
+            <div className="flex items-center gap-1">
+              <p className="text-xl py-2 font-bold">Rs.{onlineBalance} </p>
+              <BsCurrencyRupee size={20} />
+            </div>
           </div>
         </div>
       </section>
