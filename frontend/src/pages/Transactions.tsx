@@ -178,7 +178,7 @@ const Transactions = () => {
   // UI design for EXPENSE Page starts here.
   return (
     <>
-      <main className="min-h-screen mb-20">
+      <main className="mb-5">
         {/* 1. Top Header  */}
         <section className="grid grid-cols-3 items-center px-4 pt-3">
           <button

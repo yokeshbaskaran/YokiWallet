@@ -8,7 +8,7 @@ import { BsListStars } from "react-icons/bs";
 export const MobileBottomNav = () => {
   return (
     <>
-      <section className="w-full h-17 flex items-center justify-between bg-bg border-t-2 border-border">
+      <section className="w-full h-17 px-0.5 flex items-center justify-between bg-bg-soft border-t-2 border-border">
         <Link to="/">
           <div className="px-2 flex flex-col items-center gap-1 text-xs font-medium cursor-pointer">
             <IoHomeOutline size={25} />

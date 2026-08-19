@@ -25,12 +25,12 @@ const Homepage = () => {
   }, [fetchBalance]);
 
   return (
-    <main className="min-h-screen mb-20">
+    <main>
       {/* section1 = Logo & Header */}
       <section className="flex justify-between gap-2">
         <div className="flex items-center gap-2">
           <h2 className="text-primary text-2xl font-bold">
-            <span className="text-text pl-0.5">Wallet</span>
+            Yoki<span className="text-text pl-0.5">Wallet</span>
           </h2>
           <FcMoneyTransfer size={23} className="mt-1" />
         </div>
@@ -50,10 +50,10 @@ const Homepage = () => {
       <section className="my-3 border border-border bg-bg-hover rounded-md">
         {/* Container  */}
 
-        <div className="py-4 flex justify-between items-center gap-2">
+        <div className="py-4 yokiii flex justify-between items-center gap-2">
           {/* Actions 1  */}
 
-          <div className="w-full p-1 flex flex-col items-center gap-1">
+          <div className="yoki p-1 flex flex-col items-center gap-1">
             <p className="text-sm text-text-muted">Total Balance</p>
             <div className="flex items-center gap-1">
               <p className="text-2xl py-2 font-bold">Rs.{totalBalance} </p>
@@ -62,7 +62,7 @@ const Homepage = () => {
           </div>
 
           {/* Actions 2  */}
-          <div className="w-full p-1 flex flex-col items-center gap-1">
+          <div className="yoki p-1 flex flex-col items-center gap-1">
             <p className="text-sm text-text-muted">Cash in hand</p>
             <div className="flex items-center gap-1">
               <p className="text-xl py-2 font-bold">Rs.{cashBalance} </p>
@@ -71,7 +71,7 @@ const Homepage = () => {
           </div>
 
           {/* Actions 3  */}
-          <div className="w-full p-1 flex flex-col items-center gap-1">
+          <div className="yoki p-1 flex flex-col items-center gap-1">
             <p className="text-sm text-text-muted">Online Balance</p>
             <div className="flex items-center gap-1">
               <p className="text-xl py-2 font-bold">Rs.{onlineBalance} </p>
@@ -96,21 +96,18 @@ const Homepage = () => {
             >
               <PiPlusMinusBold size={25} color="white" />
             </button>
-            <h3 className="text-sm">Add Expense</h3>
+            <h3 className="mt-1 text-xs text-center">Add Expenses</h3>
           </div>
 
           {/* Actions 2 */}
-          <div className="w-full p-1 flex flex-col items-center">
+          <div className="w-full p-1 flex flex-col items-center gap-1">
             <button
-              onClick={() => setCashOpen(true)}
-              className="flex flex-col items-center"
+              onClick={() => setOnlineOpen(true)}
+              className="p-3 bg-green-700 rounded-md cursor-pointer"
             >
-              <div className="w-14 h-14 rounded-lg cursor-pointer bg-green-600 flex items-center justify-center text-white">
-                <BsCashCoin size={28} />
-              </div>
-
-              <span className="mt-2 text-sm">Add Cash Amount</span>
+              <BsCashCoin size={25} color="white" />
             </button>
+            <h3 className="mt-1 text-xs text-center">Add Cash Amount</h3>
           </div>
 
           {/* Actions 3 */}
@@ -121,7 +118,7 @@ const Homepage = () => {
             >
               <FaGooglePay size={25} color="white" />
             </button>
-            <h3 className="text-sm">Set Online Balance</h3>
+            <h3 className="mt-1 text-xs text-center">Set Online Balance</h3>
           </div>
         </div>
 
