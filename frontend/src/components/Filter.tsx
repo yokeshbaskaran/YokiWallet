@@ -112,7 +112,7 @@ const Filter = ({
 
   return (
     <>
-      <main className="fixed inset-0 z-50">
+      <main className="fixed max-w-md mx-auto inset-0 z-50">
         {/* Background Overlay */}
         <div
           onClick={() => setShowFilters(false)}
@@ -122,7 +122,7 @@ const Filter = ({
 
         {/* Bottom Sheet */}
         <div
-          className="absolute bottom-0
+          className="pt-5 pb-2 absolute bottom-0
                         left-0 right-0
                         bg-white rounded-t-2xl
                         max-h-[90vh]
@@ -133,7 +133,7 @@ const Filter = ({
           <section
             className="flex items-center
                           justify-between
-                          px-5 py-3
+                          px-5 pb-3
                           border-b border-border"
           >
             <h2 className="text-xl font-semibold">Filters</h2>
@@ -141,16 +141,14 @@ const Filter = ({
             <div className="flex items-center gap-3">
               <button
                 onClick={resetFilters}
-                className="px-4 py-2 text-base text-primary
-                              font-medium cursor-pointer border border-border-strong rounded-lg hover:text-primary-light hover:bg-primary"
+                className="px-4 py-2 text-base text-primary font-medium cursor-pointer border border-border-strong rounded-lg shadow-md shadow-primary-light hover:text-primary-light hover:bg-primary"
               >
                 Reset
               </button>
 
               <button
                 onClick={() => setShowFilters(false)}
-                className="p-2 rounded-full
-                              hover:bg-gray-100 cursor-pointer"
+                className="p-2 rounded-full hover:bg-gray-100 cursor-pointer"
               >
                 <IoClose size={22} />
               </button>
@@ -244,9 +242,7 @@ const Filter = ({
                   placeholder="Min amount"
                   value={minAmount}
                   onChange={(e) => setMinAmount(e.target.value)}
-                  className="border border-border-strong
-                                rounded-xl px-4 py-3
-                                outline-none"
+                  className="border border-border-strong rounded-xl px-4 py-3 outline-none"
                 />
 
                 <input
@@ -254,9 +250,7 @@ const Filter = ({
                   placeholder="Max amount"
                   value={maxAmount}
                   onChange={(e) => setMaxAmount(e.target.value)}
-                  className="border border-border-strong
-                                rounded-xl px-4 py-3
-                                outline-none"
+                  className="border border-border-strong rounded-xl px-4 py-3 outline-none"
                 />
               </div>
             </div>
@@ -335,12 +329,7 @@ const Filter = ({
             {/* APPLY Filter Button  */}
             <button
               onClick={() => setShowFilters(false)}
-              className="w-full py-4
-                            rounded-2xl
-                            bg-primary text-white
-                            font-semibold
-                            hover:opacity-90
-                            cursor-pointer"
+              className="w-full py-4 rounded-2xl bg-primary text-white font-semibold hover:opacity-90 cursor-pointer"
             >
               Apply Filters ({filteredTransactions.length})
             </button>
