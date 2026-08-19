@@ -3,16 +3,19 @@ import { MobileBottomNav } from "../components/MobileNav";
 
 const MainLayout = () => {
   return (
-    <>
-      <section className="w-full h-screen p-2 flex flex-col items-center justify-start gap-2">
-        <div className="flex-1 w-full">
+    <main className="min-h-screen flex justify-center bg-white">
+      <section className="w-full max-w-md min-h-screen flex flex-col">
+        {/* App content */}
+        <div className="flex-1 p-2">
           <Outlet />
         </div>
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full z-40">
+
+        {/* Bottom navigation INSIDE app */}
+        <div className="sticky bottom-0 z-40 w-full">
           <MobileBottomNav />
         </div>
       </section>
-    </>
+    </main>
   );
 };
 
