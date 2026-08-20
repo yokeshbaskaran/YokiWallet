@@ -35,7 +35,7 @@ const Homepage = () => {
           <FcMoneyTransfer size={23} className="mt-1" />
         </div>
 
-        <div className="px-2 py-2 text-sm flex items-center gap-2 border-2 rounded-md border-border-strong">
+        <div className="p-2 text-sm flex items-center gap-2 border rounded-md border-border-strong shadow-md shadow-primary-light">
           <PiCalendarHeart size={20} className="mt-1" color="#E91E63" />
           {todaysDate.toLocaleString("en-IN", {
             // day: "2-digit",
@@ -95,7 +95,7 @@ const Homepage = () => {
       </section>
       {/* section2 */}
 
-      {/* section3  */}
+      {/* section3 = Quick Actions */}
       <section className="w-full my-5">
         <h3 className="text-text text-lg font-semibold">Quick Actions</h3>
         {/* Container  */}
@@ -115,7 +115,7 @@ const Homepage = () => {
           {/* Actions 2 */}
           <div className="w-full p-1 flex flex-col items-center gap-1">
             <button
-              onClick={() => setOnlineOpen(true)}
+              onClick={() => setCashOpen(true)}
               className="p-3 bg-green-700 rounded-md cursor-pointer"
             >
               <BsCashCoin size={25} color="white" />
@@ -151,7 +151,7 @@ const Homepage = () => {
         />
       </section>
 
-      {/* section4  */}
+      {/* section4 = Recent Transactions */}
       <div className="my-5">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Recent Transactions</h2>
