@@ -6,7 +6,7 @@ const MainLayout = () => {
     <main className="min-h-screen flex justify-center bg-white">
       <section className="w-full max-w-md min-h-screen flex flex-col border border-border shadow-md shadow-primary-light">
         {/* App content */}
-        <div className="flex-1 p-2">
+        <div className="flex-1">
           <Outlet />
         </div>
 

@@ -111,9 +111,9 @@ const Expenses = () => {
   // UI design for EXPENSE Page starts here.
   return (
     <>
-      <section className="min-h-screen mb-8">
+      <main className="mb-3 p-2">
         {/* 1. Top Header  */}
-        <div className="grid grid-cols-3 items-center">
+        <div className="my-2 grid grid-cols-3 items-start">
           <button
             onClick={pathToHome}
             className="p-2 justify-self-start text-text cursor-pointer border border-border rounded-full hover:bg-bg-hover"
@@ -122,7 +122,7 @@ const Expenses = () => {
             <IoArrowBackSharp size={20} />
           </button>
 
-          <h3 className="justify-self-center text-base text-text font-semibold">
+          <h3 className="justify-self-center text-lg text-text font-semibold">
             Add Transaction
             <p className="text-xs font-normal text-center text-text-muted">
               <span className="text-green-600">Earn</span> /
@@ -134,7 +134,7 @@ const Expenses = () => {
         </div>
 
         {/* 2. Earn & Spend button */}
-        <div className="w-full pt-5 flex items-center justify-center gap-3">
+        <div className="w-full pt-5 pb-1 flex items-center justify-center gap-3">
           <button
             onClick={() => setTransactionType("income")}
             className={`flex-1 py-3 rounded-lg font-semibold flex items-center justify-center gap-1 transition-all duration-300 cursor-pointer ${
@@ -311,7 +311,11 @@ const Expenses = () => {
             {savingData ? "Saving..." : "Save Expense"}
           </button>
         </section>
-      </section>
+      </main>
+
+      <p className="pb-10 text-sm text-center text-text-muted">
+        ------ End of Expense Page ------
+      </p>
     </>
   );
 };

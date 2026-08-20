@@ -178,9 +178,9 @@ const Transactions = () => {
   // UI design for EXPENSE Page starts here.
   return (
     <>
-      <main className="mb-5">
+      <main className="mb-5 p-1">
         {/* 1. Top Header  */}
-        <section className="grid grid-cols-3 items-center px-4 pt-3">
+        <section className="grid grid-cols-3 items-center px-2 pt-3">
           <button
             onClick={pathToHome}
             className="p-2 justify-self-start text-text cursor-pointer border border-border-strong rounded-full hover:bg-bg-hover"

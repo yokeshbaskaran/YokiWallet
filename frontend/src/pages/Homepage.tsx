@@ -25,7 +25,7 @@ const Homepage = () => {
   }, [fetchBalance]);
 
   return (
-    <main>
+    <main className="p-2">
       {/* section1 = Logo & Header */}
       <section className="flex justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -46,41 +46,54 @@ const Homepage = () => {
         </div>
       </section>
 
-      {/* section2  = Amount Details */}
-      <section className="my-3 border border-border bg-bg-hover rounded-md">
+      {/* section2 = Amount Details */}
+      <section className="my-3 overflow-hidden rounded-md border border-border bg-bg-hover">
         {/* Container  */}
-
-        <div className="py-4 yokiii flex justify-between items-center gap-2">
-          {/* Actions 1  */}
-
-          <div className="yoki p-1 flex flex-col items-center gap-1">
+        <div className="px-4 py-5">
+          {/* 1. Total Balance */}
+          <div className="flex flex-col items-center">
             <p className="text-sm text-text-muted">Total Balance</p>
-            <div className="flex items-center gap-1">
-              <p className="text-2xl py-2 font-bold">Rs.{totalBalance} </p>
-              <BsCurrencyRupee size={20} />
+
+            <div className="mt-1 flex items-center gap-1">
+              <BsCurrencyRupee size={25} />
+              <p className="text-3xl font-bold">{totalBalance}</p>
             </div>
           </div>
 
-          {/* Actions 2  */}
-          <div className="yoki p-1 flex flex-col items-center gap-1">
-            <p className="text-sm text-text-muted">Cash in hand</p>
-            <div className="flex items-center gap-1">
-              <p className="text-xl py-2 font-bold">Rs.{cashBalance} </p>
-              <BsCurrencyRupee size={20} />
-            </div>
-          </div>
+          {/* Divider */}
+          <div className="my-3 border-t border-border-strong" />
 
-          {/* Actions 3  */}
-          <div className="yoki p-1 flex flex-col items-center gap-1">
-            <p className="text-sm text-text-muted">Online Balance</p>
-            <div className="flex items-center gap-1">
-              <p className="text-xl py-2 font-bold">Rs.{onlineBalance} </p>
-              <BsCurrencyRupee size={20} />
+          {/* 2. Cash & Online */}
+          <div className="grid grid-cols-2 divide-x divide-border-strong">
+            {/* i) Cash Balance */}
+            <div className="flex flex-col items-center px-2">
+              <div className="flex items-center gap-1">
+                <span className="text-lg">💵</span>
+                <p className="text-sm text-text-muted">Cash in hand</p>
+              </div>
+
+              <div className="mt-1 flex items-center gap-1">
+                <BsCurrencyRupee size={18} />
+                <p className="text-xl font-bold">{cashBalance}</p>
+              </div>
+            </div>
+
+            {/* ii) Online Balance */}
+            <div className="flex flex-col items-center px-2">
+              <div className="flex items-center gap-1">
+                <span className="text-lg">📱</span>
+                <p className="text-sm text-text-muted">Online Balance</p>
+              </div>
+
+              <div className="mt-1 flex items-center gap-1">
+                <BsCurrencyRupee size={18} />
+                <p className="text-xl font-bold">{onlineBalance}</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
-      {/* section2  */}
+      {/* section2 */}
 
       {/* section3  */}
       <section className="w-full my-5">
@@ -137,7 +150,6 @@ const Homepage = () => {
           onSuccess={fetchBalance}
         />
       </section>
-      {/* section3  */}
 
       {/* section4  */}
       <div className="my-5">
@@ -159,6 +171,10 @@ const Homepage = () => {
         </div>
       </div>
       {/* section4  */}
+
+      <p className="pb-8 text-sm text-center text-text-muted">
+        ------ End of HomePage ------
+      </p>
     </main>
   );
 };
