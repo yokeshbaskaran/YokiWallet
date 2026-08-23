@@ -28,7 +28,9 @@ export const getTransactions = async (req, res) => {
 // GET lastest TRANSACTIONS
 export const recentsTransactions = async (req, res) => {
   try {
-    const transactions = await Transaction.find().sort({ date: -1 }).limit(10);
+    const transactions = await Transaction.find()
+      .sort({ createdAt: -1 })
+      .limit(10);
 
     res.status(200).json({
       success: true,

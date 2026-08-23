@@ -90,7 +90,7 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
   const fetchBalance = useCallback(async (): Promise<void> => {
     try {
       const response = await axios.get(API_URL + "/balance");
-      console.log("GET All-Balance:", response);
+      // console.log("GET All-Balance:", response);
 
       // setting amount values
       const data = response.data.data;
@@ -132,8 +132,7 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
   const totalExpense = transactions
     .filter((transaction) => transaction.type === "expense")
     .reduce((total, transaction) => total + transaction.amount, 0);
-
-  console.log("LINK AMOUNT:", totalIncome, totalExpense);
+  // console.log("LINK AMOUNT:", totalIncome, totalExpense);
 
   /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
