@@ -3,7 +3,7 @@ import express from "express";
 import {
   createTransaction,
   getTransactions,
-  getTransaction,
+  // getTransaction,
   recentsTransactions,
   deleteTransaction,
 } from "../controllers/transactionController.js";
@@ -11,9 +11,9 @@ import {
 const router = express.Router();
 
 router.get("/", getTransactions);
-router.get("/:id", getTransaction);
-router.post("/", createTransaction);
 router.get("/latest", recentsTransactions);
+// router.get("/:id", getTransaction);
+router.post("/", createTransaction);
 router.delete("/:id", deleteTransaction);
 
 export default router;
