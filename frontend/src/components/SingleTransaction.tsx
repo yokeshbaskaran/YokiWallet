@@ -4,6 +4,9 @@ import {
   getCategoryLabel,
   getPaymentLabel,
 } from "../utils/helpers";
+import { TbTrash } from "react-icons/tb";
+import axios from "axios";
+import { API_URL } from "../context/AppContext";
 
 type SingleTransactionProps = {
   transaction: TransactionType;
@@ -27,18 +30,31 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
 
   const paymentLabel = getPaymentLabel(payment);
 
+  // Delete transaction
+  const deleteTransaction = async (id: string) => {
+    confirm("This transaction will be Deleted!");
+    try {
+      const response = await axios.delete(API_URL + `/transaction/${id}`);
+      alert(`Transaction - ${amount}$ Deleted!`);
+      return response.data;
+    } catch (error) {
+      console.error("Delete Transaction Error:", error);
+      throw error;
+    }
+  };
+
   return (
     <>
       <>
         <section
           key={_id}
-          className="bg-white rounded-md shadow-sm border border-border p-3 flex justify-between items-center"
+          className="rounded-md bg-white shadow-md border border-border-strong px-3 py-2 flex justify-between items-center gap-1"
         >
           {/* 1.  Details  */}
-          <div className="flex gap-3">
+          <div className="flex items-start gap-3">
             {/* icon  */}
             <div
-              className={`w-12 h-12 rounded-md flex items-center justify-center text-xl ${
+              className={`px-4 size-12 rounded-md flex items-center justify-center text-xl ${
                 type === "expense" ? "bg-red-100" : "bg-green-100"
               }`}
             >
@@ -52,25 +68,39 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
                 {new Date(date).toLocaleDateString("en-GB").replace(/\//g, ".")}
               </p>
 
-              <p className="my-1 text-xs text-text-muted">{notes}</p>
+              <p className="my-1 mr-2 pr-4 text-xs text-text-muted text-start">
+                {/* {notes} */}
+                {notes?.trim().split(/\s+/).slice(0, 25).join(" ")}
+                {(notes?.trim().split(/\s+/).length ?? 0) > 25 && "..."}
+              </p>
             </div>
           </div>
 
           {/* 2. Expense Details  */}
-          <div className="flex flex-col items-end">
+          <div className="px-1 flex flex-col items-end">
             <div
-              className={`flex items-center font-bold text-xl  ${
+              className={`flex items-center gap-0.5 font-bold text-xl  ${
                 type === "expense" ? "text-red-600" : "text-green-600"
               }`}
             >
-              <span> {type === "expense" ? "-" : "+"}</span>
+              <span className="text-2xl">{type === "expense" ? "-" : "+"}</span>
+
               <span> {amount}</span>
+
               <span className="mt-1">
                 <LiaRupeeSignSolid size={20} />
               </span>
             </div>
 
-            <div className="text-xs">{paymentLabel}</div>
+            <div className="px-2 whitespace-nowrap text-xs">{paymentLabel}</div>
+
+            {/* DELETE Button  */}
+            <button
+              onClick={() => deleteTransaction(_id)}
+              className="mt-4 p-1 text-xs self-center border border-red-200 rounded-full cursor-pointer"
+            >
+              <TbTrash size={14} color="red" />
+            </button>
           </div>
         </section>
       </>
