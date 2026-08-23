@@ -54,13 +54,13 @@ export const payments = [
     { label: "Cash in hand 💵", value: "cash" },
     { label: "Google Pay (GPay) 🔵📱", value: "gpay" },
     { label: "PhonePe 🟣📱", value: "phonepe" },
-    { label: "Debit card 💳", value: "debit_card" },
+    { label: "Debit Card 💳", value: "debit_card" },
 ];
 
 // Get payment type for Single transaction
 export const getPaymentLabel = (payment: string) => {
     const paymentLabels: Record<string, string> = {
-        debit_card: "Debit Card 💳",
+        debit_card: "Card 💳",
         phonepe: "PhonePe 🟣📱",
         gpay: "GPay 🔵📱",
         cash: "Cash 💵",

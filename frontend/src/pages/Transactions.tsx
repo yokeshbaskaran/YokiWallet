@@ -299,7 +299,7 @@ const Transactions = () => {
         </section>
 
         {/* 5. Transactions */}
-        <section className="mx-2 my-3">
+        <section className="mx-1 my-3">
           <div>
             {transactions.length === 0 ? (
               <div className="text-center py-10 text-gray-500">
