@@ -1,4 +1,5 @@
 import Transaction from "../models/Transaction.js";
+import Balance from "../models/Balance.js";
 import { changeBalance } from "../controllers/balanceController.js";
 
 // GET ALL TRANSACTIONS
