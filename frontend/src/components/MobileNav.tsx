@@ -8,7 +8,7 @@ import { BsListStars } from "react-icons/bs";
 export const MobileBottomNav = () => {
   return (
     <>
-      <section className="w-full h-17 px-0.5 flex items-center justify-between bg-bg-soft border-t-2 border-border">
+      <section className="w-full h-17 px-0.5 flex items-center justify-between bg-bg-soft border-t border-border-strong rounded-lg shadow-md shadow-primary-light">
         <Link to="/">
           <div className="px-2 flex flex-col items-center gap-1 text-xs font-medium cursor-pointer">
             <IoHomeOutline size={25} />
@@ -17,7 +17,7 @@ export const MobileBottomNav = () => {
         </Link>
 
         <Link to="/transactions">
-          <div className="mr-5 px-2 flex flex-col items-center gap-1 text-xs font-medium cursor-pointer">
+          <div className="mr-4 px-1 flex flex-col items-center gap-1 text-xs font-medium cursor-pointer">
             <GrTransaction size={25} />
             <h2>Transactions</h2>
           </div>
@@ -35,7 +35,7 @@ export const MobileBottomNav = () => {
         </Link>
 
         <Link to="/goals">
-          <div className="ml-5 px-2 flex flex-col items-center gap-1 text-xs font-medium cursor-pointer">
+          <div className="px-1 flex flex-col items-center gap-1 text-xs font-medium cursor-pointer">
             <BsListStars size={25} />
             <h2>Goals</h2>
           </div>

@@ -20,12 +20,6 @@ type AuthUser = {
   role: string;
 } | null;
 
-type AmountBalance = {
-  cashBalance: number;
-  onlineBalance: number;
-  totalBalance: number;
-};
-
 type AppContextType = {
   dark: boolean;
   setDark: React.Dispatch<React.SetStateAction<boolean>>;
@@ -41,14 +35,19 @@ type AppContextType = {
   totalBalance: number;
   fetchBalance: () => void;
 
+  totalIncome: number;
+  totalExpense: number;
+
   transactions: TransactionType[];
   getAllTransactions: () => void;
 };
 
 const AppContext = createContext({} as AppContextType);
 
+// API URL from backend
 export const API_URL = import.meta.env.VITE_SERVER_APP_URL;
 
+//export Appcontext data function
 export function useAppContext() {
   return useContext(AppContext);
 }
@@ -60,11 +59,35 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
     return savedTheme === "dark";
   });
 
+  const [transactions, setTransactions] = useState<TransactionType[]>([]);
+  const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
+
   const [cashBalance, setCashBalance] = useState(0);
   const [onlineBalance, setOnlineBalance] = useState(0);
   const [totalBalance, setTotalBalance] = useState(0);
 
-  const fetchBalance = useCallback(async (): Promise<AmountBalance> => {
+  //dummy Auths
+  const [authUser, setAuthUser] = useState<AuthUser>(() => {
+    const storedUser = localStorage.getItem("authUser");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  // path/redirects to HOME PAGE
+  const navigate = useNavigate();
+
+  // xxxxxxxxxxx ---- FUNCTIONS ---- xxxxxxxx
+  const pathToHome = () => {
+    navigate("/");
+  };
+
+  // AuthUser logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setAuthUser(null);
+  };
+
+  // fetch [GET] the Balances
+  const fetchBalance = useCallback(async (): Promise<void> => {
     try {
       const response = await axios.get(API_URL + "/balance");
       console.log("GET All-Balance:", response);
@@ -78,46 +101,14 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
       const total = Number(data.totalBalance).toFixed(2);
       setTotalBalance(Number(total));
 
-      return response.data;
+      // return response.data;
     } catch (error) {
       console.error("GET AllBalance Error:", error);
       throw error;
     }
   }, []);
 
-  //dummy Auths
-  const [authUser, setAuthUser] = useState<AuthUser>(() => {
-    const storedUser = localStorage.getItem("authUser");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
-
-  // Save to localStorage whenever authUser changes
-  useEffect(() => {
-    if (authUser) {
-      localStorage.setItem("authUser", JSON.stringify(authUser));
-    } else {
-      localStorage.removeItem("authUser");
-    }
-  }, [authUser]);
-
-  const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
-
-  // path/redirects to HOME PAGE
-  const navigate = useNavigate();
-
-  //functions
-  const pathToHome = () => {
-    navigate("/");
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setAuthUser(null);
-  };
-
   // Fetch All Transactions
-  const [transactions, setTransactions] = useState<TransactionType[]>([]);
-
   const getAllTransactions = useCallback(async () => {
     try {
       const response = await axios.get(API_URL + "/transaction");
@@ -131,6 +122,37 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
       console.error(error);
     }
   }, []);
+
+  // Total amount earned
+  const totalIncome = transactions
+    .filter((transaction) => transaction.type === "income")
+    .reduce((total, transaction) => total + transaction.amount, 0);
+
+  // Total amount spend
+  const totalExpense = transactions
+    .filter((transaction) => transaction.type === "expense")
+    .reduce((total, transaction) => total + transaction.amount, 0);
+
+  console.log("LINK AMOUNT:", totalIncome, totalExpense);
+
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    fetchBalance();
+    getAllTransactions();
+  }, [fetchBalance, getAllTransactions]);
+
+  // Save to localStorage whenever authUser changes
+  useEffect(() => {
+    if (!authUser) {
+      return;
+    }
+
+    if (authUser) {
+      localStorage.setItem("authUser", JSON.stringify(authUser));
+    } else {
+      localStorage.removeItem("authUser");
+    }
+  }, [authUser]);
 
   const contextValues = {
     dark,
@@ -147,6 +169,9 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
     onlineBalance,
     totalBalance,
     fetchBalance,
+
+    totalIncome,
+    totalExpense,
 
     // transactions
     transactions,

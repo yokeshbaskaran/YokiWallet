@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import BalanceModal from "../components/BalanceModal";
 
 import { useAppContext } from "../context/AppContext";
+import { AiOutlineThunderbolt } from "react-icons/ai";
+import { LuClipboardList } from "react-icons/lu";
 
 const Homepage = () => {
   const [cashOpen, setCashOpen] = useState(false);
@@ -95,9 +97,31 @@ const Homepage = () => {
       </section>
       {/* section2 */}
 
+      {/* <section>
+        <div className="flex items-center gap-4">
+          <div className="flex size-10 items-center justify-center border border-border-strong rounded-xl bg-[#F0E5FF]">
+            <span>
+              <AiOutlineThunderbolt size={20} color="#7F22FE" />
+            </span>
+          </div>
+
+          <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-[#0A0324]">
+            Quick Actions
+          </h2>
+        </div>
+      </section> */}
+
       {/* section3 = Quick Actions */}
       <section className="w-full my-5">
-        <h3 className="text-text text-lg font-semibold">Quick Actions</h3>
+        <div className="flex items-center gap-2">
+          <div className="flex size-9 items-center justify-center border border-border-strong rounded-xl bg-[#F0E5FF]">
+            <span>
+              <AiOutlineThunderbolt size={20} color="#7F22FE" />
+            </span>
+          </div>
+
+          <h3 className="text-text text-lg font-semibold">Quick Actions</h3>
+        </div>
         {/* Container  */}
 
         <div className="w-full py-4 flex justify-between items-center gap-4">
@@ -154,7 +178,15 @@ const Homepage = () => {
       {/* section4 = Recent Transactions */}
       <div className="my-5">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">Recent Transactions</h2>
+          <div className="flex items-center gap-2">
+            <div className="flex size-9 items-center justify-center border border-border-strong rounded-xl bg-[#FFF3D6]">
+              <span>
+                <LuClipboardList size={20} color="#F59E0B" />
+              </span>
+            </div>
+
+            <h2 className="text-lg font-semibold">Recent Transactions</h2>
+          </div>
 
           <button
             onClick={() => navigate("/transactions")}
