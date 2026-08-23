@@ -3,7 +3,7 @@ export const getBalanceField = (payment) => {
     return "cashBalance";
   }
 
-  if (payment === "gpay" || payment === "phonepe") {
+  if (payment === "gpay" || payment === "phonepe" || payment === "debit_card") {
     return "onlineBalance";
   }
 

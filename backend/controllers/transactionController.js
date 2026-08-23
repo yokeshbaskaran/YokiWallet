@@ -128,10 +128,13 @@ export const deleteTransaction = async (req, res) => {
     let balanceField;
 
     if (transaction.payment === "cash") {
+      // For Cash in hand Balance
       balanceField = "cashBalance";
     } else if (
+      // For Online Balance
       transaction.payment === "gpay" ||
-      transaction.payment === "phonepe"
+      transaction.payment === "phonepe" ||
+      transaction.payment === "debit_card"
     ) {
       balanceField = "onlineBalance";
     } else {

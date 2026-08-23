@@ -129,10 +129,12 @@ export const changeBalance = async ({ type, payment, amount }) => {
 
   let balanceField;
 
+  // For Cash in hand Balance
   if (payment === "cash") {
     balanceField = "cashBalance";
   }
 
+  // For Online Balance
   if (payment === "gpay" || payment === "phonepe" || payment === "debit_card") {
     balanceField = "onlineBalance";
   }
