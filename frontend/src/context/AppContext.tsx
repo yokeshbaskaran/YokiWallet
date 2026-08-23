@@ -40,6 +40,10 @@ type AppContextType = {
 
   transactions: TransactionType[];
   getAllTransactions: () => void;
+  deleteTransaction: (id: string, amount: number) => Promise<void>;
+
+  recents: TransactionType[];
+  getLastestTransactions: () => void;
 };
 
 const AppContext = createContext({} as AppContextType);
@@ -60,6 +64,8 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
   });
 
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
+  const [recents, setRecents] = useState<TransactionType[]>([]);
+
   const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
 
   const [cashBalance, setCashBalance] = useState(0);
@@ -123,6 +129,35 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
     }
   }, []);
 
+  // GET Latest Transactions
+  const getLastestTransactions = async () => {
+    try {
+      const response = await axios.get(API_URL + "/transaction/latest");
+
+      const sortedTransactions = response.data.data.slice(0, 5);
+      // console.log("recents", sortedTransactions);
+      setRecents(sortedTransactions);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Delete one transaction
+  const deleteTransaction = async (id: string, amount: number) => {
+    const confirmAlertBtn = confirm("This transaction will be Deleted!");
+    if (!confirmAlertBtn) return;
+
+    try {
+      await axios.delete(API_URL + `/transaction/${id}`);
+      alert(`Transaction - ${amount}$ Deleted!`);
+      setRecents((prev) => prev.filter((item) => item._id !== id));
+      // return response.data;
+    } catch (error) {
+      console.error("Delete Transaction Error:", error);
+      throw error;
+    }
+  };
+
   // Total amount earned
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")
@@ -138,6 +173,7 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
   useEffect(() => {
     fetchBalance();
     getAllTransactions();
+    getLastestTransactions();
   }, [fetchBalance, getAllTransactions]);
 
   // Save to localStorage whenever authUser changes
@@ -175,6 +211,10 @@ export const AppContextProvider = ({ children }: AppContextProviderType) => {
     // transactions
     transactions,
     getAllTransactions,
+    deleteTransaction,
+
+    recents,
+    getLastestTransactions,
   };
 
   return (

@@ -1,43 +1,27 @@
-import { useEffect, useState } from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { getCategoryLabel } from "../utils/helpers";
-import { API_URL } from "../context/AppContext";
-import { type TransactionType } from "../utils/helpers";
-import axios from "axios";
+import { useAppContext } from "../context/AppContext";
+import { TbTrash } from "react-icons/tb";
 
 const Recents = () => {
-  const [transactions, setTransactions] = useState<TransactionType[]>([]);
-
-  useEffect(() => {
-    const getLast5Transactions = async () => {
-      try {
-        const response = await axios.get(API_URL + "/transaction/latest");
-
-        const sortedTransactions = response.data.data.slice(0, 5);
-        setTransactions(sortedTransactions);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getLast5Transactions();
-  }, []);
+  const { recents, deleteTransaction } = useAppContext();
+  console.log("recents:", recents);
 
   return (
-    <section>
-      <div className="space-y-3">
-        {transactions.length === 0 ? (
+    <>
+      <section className="space-y-3">
+        {recents.length === 0 ? (
           <div className="text-center py-10 text-gray-500">
             No Transactions Found
           </div>
         ) : (
-          transactions.slice(0, 4).map((item) => {
+          recents.map((item) => {
             const categoryLabel = getCategoryLabel(item.category, item.type);
 
             return (
-              <div
+              <section
                 key={item._id}
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 flex justify-between items-center"
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 flex justify-between items-start"
               >
                 <div className="flex gap-3">
                   {/* icon  */}
@@ -51,31 +35,51 @@ const Recents = () => {
 
                   {/* Expense category and Date */}
                   <div>
-                    <h3 className="text-lg">{categoryLabel}</h3>
+                    <h3 className="text-lg">
+                      {/* {categoryLabel} */}
+                      {categoryLabel.split(" ").slice(0, -1).join(" ")}
+                    </h3>
                     <p className="text-sm font-medium text-text-muted">
                       {new Date(item.date)
                         .toLocaleDateString("en-GB")
                         .replace(/\//g, ".")}
                     </p>
+                    {/* <p className="text-sm font-medium text-text-muted">
+                      {new Date(item.createdAt)
+                        .toLocaleDateString("en-GB")
+                        .replace(/\//g, ".")}
+                    </p> */}
                   </div>
                 </div>
 
                 {/* Expense Details  */}
-                <div
-                  className={`flex items-center font-bold text-lg ${
-                    item.type === "expense" ? "text-red-600" : "text-green-600"
-                  }`}
-                >
-                  {item.type === "expense" ? "-" : "+"}
-                  <LiaRupeeSignSolid size={20} />
-                  {item.amount}
-                </div>
-              </div>
+                <section className="px-1 flex flex-col">
+                  <div
+                    className={`flex items-center gap-0.5 font-semibold text-lg ${
+                      item.type === "expense"
+                        ? "text-red-600"
+                        : "text-green-600"
+                    }`}
+                  >
+                    <span>{item.type === "expense" ? "-" : "+"}</span>
+                    <span>{item.amount}</span>
+                    <LiaRupeeSignSolid size={20} />
+                  </div>
+
+                  {/* DELETE Button  */}
+                  <button
+                    onClick={() => deleteTransaction(item._id, item.amount)}
+                    className="mt-2 p-1 text-xs self-center border border-red-200 rounded-full cursor-pointer"
+                  >
+                    <TbTrash size={14} color="red" />
+                  </button>
+                </section>
+              </section>
             );
           })
         )}
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

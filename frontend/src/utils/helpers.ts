@@ -7,6 +7,8 @@ export type TransactionType = {
     payment: string;
     date: string;
     notes?: string;
+    createdAt: string
+    updatedAt: string
 };
 
 

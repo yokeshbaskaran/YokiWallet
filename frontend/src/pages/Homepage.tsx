@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FcMoneyTransfer } from "react-icons/fc";
 import { BsCashCoin, BsCurrencyRupee } from "react-icons/bs";
 import Recents from "../components/Recents";
@@ -21,10 +21,6 @@ const Homepage = () => {
   // Setting Today's date
   const [todaysDate] = useState(() => new Date());
   const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchBalance();
-  }, [fetchBalance]);
 
   return (
     <main className="p-2">
