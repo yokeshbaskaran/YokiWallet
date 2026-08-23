@@ -25,6 +25,26 @@ export const getTransactions = async (req, res) => {
   }
 };
 
+// GET lastest TRANSACTIONS
+export const recentsTransactions = async (req, res) => {
+  try {
+    const transactions = await Transaction.find().sort({ date: -1 }).limit(10);
+
+    res.status(200).json({
+      success: true,
+      count: transactions.length,
+      data: transactions,
+    });
+  } catch (error) {
+    console.error("GET lastest-Transactions Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // Create transaction
 export const createTransaction = async (req, res) => {
   try {
