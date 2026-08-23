@@ -117,9 +117,9 @@ const Profile = () => {
               <div className="flex items-end gap-3">
                 <div>
                   <img
-                    src="/me.png"
+                    src="/myprofile.png"
                     alt="my-profile"
-                    className="size-25 object-cover object-left flex items-center justify-center rounded-2xl border-4 border-white bg-indigo-100 shadow-md"
+                    className="size-25 object-cover object-center rounded-2xl border-4 border-white bg-indigo-100 shadow-2xl shadow-primary-light"
                   />
                 </div>
 
