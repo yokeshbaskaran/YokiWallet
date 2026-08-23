@@ -62,8 +62,10 @@ const Transactions = () => {
       const searchText = search.toLowerCase();
 
       result = result.filter((transaction) => {
+        const amountText = String(transaction.amount);
         return (
           transaction.notes?.toLowerCase().includes(searchText) ||
+          amountText?.toLowerCase().includes(searchText) ||
           transaction.category?.toLowerCase().includes(searchText) ||
           transaction.payment?.toLowerCase().includes(searchText)
         );

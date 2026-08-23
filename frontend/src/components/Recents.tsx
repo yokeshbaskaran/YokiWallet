@@ -1,14 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { getCategoryLabel } from "../utils/helpers";
-import { useAppContext } from "../context/AppContext";
+import { API_URL } from "../context/AppContext";
+import { type TransactionType } from "../utils/helpers";
+import axios from "axios";
 
 const Recents = () => {
-  const { transactions, getAllTransactions } = useAppContext();
+  const [transactions, setTransactions] = useState<TransactionType[]>([]);
 
   useEffect(() => {
-    getAllTransactions();
-  }, [getAllTransactions]);
+    const getLast5Transactions = async () => {
+      try {
+        const response = await axios.get(API_URL + "/transaction/latest");
+
+        const sortedTransactions = response.data.data.slice(0, 5);
+        setTransactions(sortedTransactions);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getLast5Transactions();
+  }, []);
 
   return (
     <section>

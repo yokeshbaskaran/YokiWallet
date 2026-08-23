@@ -86,7 +86,9 @@ const Expenses = () => {
 
       const response = await createTransaction(transaction);
       console.log(response.data);
-      alert("Transaction Saved");
+      alert(
+        `Transaction ${transactionType === "expense" ? "-" : "+"} Rs.${formData.amount} Saved`,
+      );
 
       setFormData({
         amount: "",
