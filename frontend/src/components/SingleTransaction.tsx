@@ -32,7 +32,9 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
 
   // Delete transaction
   const deleteTransaction = async (id: string) => {
-    confirm("This transaction will be Deleted!");
+    const confirmAlertBtn = confirm("This transaction will be Deleted!");
+    if (!confirmAlertBtn) return;
+
     try {
       const response = await axios.delete(API_URL + `/transaction/${id}`);
       alert(`Transaction - ${amount}$ Deleted!`);

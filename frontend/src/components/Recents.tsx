@@ -38,8 +38,8 @@ const Recents = () => {
 
                   {/* Expense category and Date */}
                   <div>
-                    <h3 className="font-semibold text-lg">{categoryLabel}</h3>
-                    <p className="text-sm font-medium text-gray-400">
+                    <h3 className="text-lg">{categoryLabel}</h3>
+                    <p className="text-sm font-medium text-text-muted">
                       {new Date(item.date)
                         .toLocaleDateString("en-GB")
                         .replace(/\//g, ".")}

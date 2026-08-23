@@ -97,20 +97,6 @@ const Homepage = () => {
       </section>
       {/* section2 */}
 
-      {/* <section>
-        <div className="flex items-center gap-4">
-          <div className="flex size-10 items-center justify-center border border-border-strong rounded-xl bg-[#F0E5FF]">
-            <span>
-              <AiOutlineThunderbolt size={20} color="#7F22FE" />
-            </span>
-          </div>
-
-          <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-[#0A0324]">
-            Quick Actions
-          </h2>
-        </div>
-      </section> */}
-
       {/* section3 = Quick Actions */}
       <section className="w-full my-5">
         <div className="flex items-center gap-2">
