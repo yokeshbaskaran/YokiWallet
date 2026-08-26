@@ -1,16 +1,11 @@
 import axios from "axios";
 import { useState } from "react";
-
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { IoCloseOutline, IoWalletOutline } from "react-icons/io5";
 import { FaGooglePay } from "react-icons/fa6";
-
 import { API_URL } from "../context/AppContext";
 
-// ==========================================
 // TYPES
-// ==========================================
-
 type AmountType = "cash" | "online";
 
 type BalanceModalProps = {
@@ -20,10 +15,7 @@ type BalanceModalProps = {
   onSuccess?: () => void;
 };
 
-// ==========================================
-// COMPONENT
-// ==========================================
-
+// Page starts here
 const BalanceModal = ({
   open,
   onClose,

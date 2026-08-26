@@ -137,11 +137,11 @@ const Homepage = () => {
             >
               <FaGooglePay size={25} color="white" />
             </button>
-            <h3 className="mt-1 text-xs text-center">Set Online Balance</h3>
+            <h3 className="mt-1 text-xs text-center">Set Online Amount</h3>
           </div>
         </div>
 
-        {/* Balance Modal Toggle Codes  */}
+        {/* Balance Modal Toggle - Cash */}
         <BalanceModal
           open={cashOpen}
           onClose={() => setCashOpen(false)}
@@ -149,6 +149,7 @@ const Homepage = () => {
           onSuccess={fetchBalance}
         />
 
+        {/* Balance Modal Toggle - Online */}
         <BalanceModal
           open={onlineOpen}
           onClose={() => setOnlineOpen(false)}
@@ -172,7 +173,7 @@ const Homepage = () => {
 
           <button
             onClick={() => navigate("/transactions")}
-            className="px-3 py-2 text-primary text-sm font-medium flex items-center gap-1 border-2 border-border-strong rounded-md cursor-pointer hover:border-primary transition-colors"
+            className="text-sm text-primary font-medium flex items-center gap-1 cursor-pointer hover:underline transition-colors"
           >
             <span>See All</span>
             <FaAngleRight size={12} />
@@ -184,7 +185,6 @@ const Homepage = () => {
           <Recents />
         </div>
       </div>
-      {/* section4  */}
 
       <p className="pb-8 text-sm text-center text-text-muted">
         ------ End of HomePage ------
