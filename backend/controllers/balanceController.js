@@ -188,3 +188,95 @@ export const changeBalance = async ({ type, payment, amount }) => {
     totalBalance: balance.cashBalance + balance.onlineBalance,
   };
 };
+
+export const exchangeMoney = async (req, res) => {
+  try {
+    const { from, to, amount } = req.body;
+
+    // Validate from/to
+    if (!["cash", "online"].includes(from)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid source balance",
+      });
+    }
+
+    if (!["cash", "online"].includes(to)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid destination balance",
+      });
+    }
+
+    // Cannot exchange same balance
+    if (from === to) {
+      return res.status(400).json({
+        success: false,
+        message: "Source and destination cannot be the same",
+      });
+    }
+
+    // Validate amount
+    if (!amount || amount <= 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Amount must be greater than 0",
+      });
+    }
+
+    const balance = await Balance.findOne();
+
+    if (!balance) {
+      return res.status(404).json({
+        success: false,
+        message: "Balance not found",
+      });
+    }
+
+    // Check available balance
+    if (from === "cash" && amount > balance.cashBalance) {
+      return res.status(400).json({
+        success: false,
+        message: "Insufficient cash balance",
+      });
+    }
+
+    if (from === "online" && amount > balance.onlineBalance) {
+      return res.status(400).json({
+        success: false,
+        message: "Insufficient online balance",
+      });
+    }
+
+    // Cash → Online
+    if (from === "cash" && to === "online") {
+      balance.cashBalance -= amount;
+      balance.onlineBalance += amount;
+    }
+
+    // Online → Cash
+    if (from === "online" && to === "cash") {
+      balance.onlineBalance -= amount;
+      balance.cashBalance += amount;
+    }
+
+    await balance.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Money exchanged successfully",
+      data: {
+        cashBalance: balance.cashBalance,
+        onlineBalance: balance.onlineBalance,
+        totalBalance: balance.cashBalance + balance.onlineBalance,
+      },
+    });
+  } catch (error) {
+    console.error("Exchange money error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to exchange money",
+    });
+  }
+};

@@ -30,7 +30,7 @@ export const recentsTransactions = async (req, res) => {
   try {
     const transactions = await Transaction.find()
       .sort({ createdAt: -1 })
-      .limit(10);
+      .limit(15);
 
     res.status(200).json({
       success: true,
