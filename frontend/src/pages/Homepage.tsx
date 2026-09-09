@@ -10,10 +10,13 @@ import BalanceModal from "../components/BalanceModal";
 import { useAppContext } from "../context/AppContext";
 import { AiOutlineThunderbolt } from "react-icons/ai";
 import { LuClipboardList } from "react-icons/lu";
+import { MdOutlineCurrencyExchange } from "react-icons/md";
+import MoneyExchangeModal from "../components/MoneyExchangeModal";
 
 const Homepage = () => {
   const [cashOpen, setCashOpen] = useState(false);
   const [onlineOpen, setOnlineOpen] = useState(false);
+  const [exchangeOpen, setExchangeOpen] = useState(false);
 
   const { cashBalance, onlineBalance, totalBalance, fetchBalance } =
     useAppContext();
@@ -94,7 +97,7 @@ const Homepage = () => {
       {/* section2 */}
 
       {/* section3 = Quick Actions */}
-      <section className="w-full my-5">
+      <section className="w-full mt-5">
         <div className="flex items-center gap-2">
           <div className="flex size-9 items-center justify-center border border-border-strong rounded-xl bg-[#F0E5FF]">
             <span>
@@ -106,7 +109,7 @@ const Homepage = () => {
         </div>
         {/* Container  */}
 
-        <div className="w-full py-4 flex justify-between items-center gap-4">
+        <div className="w-full pt-4 pb-2 flex items-center gap-4">
           {/* Actions 1  */}
           <div className="w-full p-1 flex flex-col items-center gap-1">
             <button
@@ -115,7 +118,9 @@ const Homepage = () => {
             >
               <PiPlusMinusBold size={25} color="white" />
             </button>
-            <h3 className="mt-1 text-xs text-center">Add Expenses</h3>
+            <h3 className="mt-1 text-xs text-center">
+              Add Expenses <br /> <span>+ / -</span>
+            </h3>
           </div>
 
           {/* Actions 2 */}
@@ -137,7 +142,18 @@ const Homepage = () => {
             >
               <FaGooglePay size={25} color="white" />
             </button>
-            <h3 className="mt-1 text-xs text-center">Set Online Amount</h3>
+            <h3 className="mt-1 text-xs text-center">Add Online Amount</h3>
+          </div>
+
+          {/* Actions 4 */}
+          <div className="w-full p-1 flex flex-col items-center gap-1">
+            <button
+              onClick={() => setExchangeOpen(true)}
+              className="p-3 bg-gray-500 rounded-md cursor-pointer"
+            >
+              <MdOutlineCurrencyExchange size={25} color="white" />
+            </button>
+            <h3 className="mt-1 text-xs text-center">Money Exchange</h3>
           </div>
         </div>
 
@@ -156,10 +172,19 @@ const Homepage = () => {
           type="online"
           onSuccess={fetchBalance}
         />
+
+        {/* Balance Modal Toggle - Online */}
+        <MoneyExchangeModal
+          open={exchangeOpen}
+          cashBalance={cashBalance}
+          onlineBalance={onlineBalance}
+          onClose={() => setExchangeOpen(false)}
+          onSuccess={fetchBalance}
+        />
       </section>
 
       {/* section4 = Recent Transactions */}
-      <div className="my-5">
+      <div className="my-4">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-2">
             <div className="flex size-9 items-center justify-center border border-border-strong rounded-xl bg-[#FFF3D6]">
