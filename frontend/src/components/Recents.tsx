@@ -5,7 +5,7 @@ import { TbTrash } from "react-icons/tb";
 
 const Recents = () => {
   const { recents, deleteTransaction } = useAppContext();
-  console.log("recents:", recents);
+  // console.log("recents:", recents);
 
   return (
     <>
@@ -44,11 +44,6 @@ const Recents = () => {
                         .toLocaleDateString("en-GB")
                         .replace(/\//g, ".")}
                     </p>
-                    {/* <p className="text-sm font-medium text-text-muted">
-                      {new Date(item.createdAt)
-                        .toLocaleDateString("en-GB")
-                        .replace(/\//g, ".")}
-                    </p> */}
                   </div>
                 </div>
 
