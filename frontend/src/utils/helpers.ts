@@ -29,7 +29,7 @@ export const expenseCategories = [
     { label: "Bills 💡🧾", value: "bills" },
     { label: "Travel 🚕", value: "travel" },
     { label: "Medical 💊", value: "medical" },
-    { label: "Others 🛒", value: "others" },
+    { label: "Others -", value: "others" },
 ];
 
 // Income Categories
@@ -40,7 +40,8 @@ export const incomeCategories = [
     { label: "Cashback 💰", value: "cashback" },
     { label: "Interest 🏦", value: "interest" },
     { label: "Freelancing 🧑‍💻", value: "freelancing" },
-    { label: "Others 🪙", value: "others" },
+    { label: "Gift 🪙", value: "gift" },
+    { label: "Others +", value: "others" },
 ];
 
 

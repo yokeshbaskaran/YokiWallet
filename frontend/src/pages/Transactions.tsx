@@ -53,7 +53,7 @@ const Transactions = () => {
     return [...new Set(values)];
   }, [transactions]);
 
-  // Filter + Sort
+  // Apply Filters Button
   const filteredTransactions = useMemo(() => {
     let result = [...transactions];
 
@@ -133,6 +133,10 @@ const Transactions = () => {
         return (a.category || "").localeCompare(b.category || "");
       }
 
+      if (sortBy === "category-desc") {
+        return (b.category || "").localeCompare(a.category || "");
+      }
+
       if (sortBy === "payment") {
         return (a.payment || "").localeCompare(b.payment || "");
       }
@@ -162,7 +166,7 @@ const Transactions = () => {
     sortBy,
   ]);
 
-  // Reset filters
+  // Reset all used filters
   const resetFilters = () => {
     setTransactionType("all");
     setCategory("all");
@@ -281,7 +285,6 @@ const Transactions = () => {
           <p className="px-1 pb-2 text-sm text-text-muted">
             {filteredTransactions.length} transactions
           </p>
-
           {/* Sorting by button  */}
           <div className="ml-auto">
             <select
@@ -292,10 +295,11 @@ const Transactions = () => {
             bg-white text-sm outline-none"
             >
               <option value="date">Newest</option>
-              <option value="category">Category</option>
-              {/* <option value="payment">Payment</option> */}
-              <option value="amount-high">Amount: High</option>
-              <option value="amount-low">Amount: Low</option>
+              <option value="category">Category "A to Z"</option>
+              <option value="category-desc">Category "Z to A"</option>
+
+              <option value="amount-high">Amount: High to Low</option>
+              <option value="amount-low">Amount: Low to High</option>
             </select>
           </div>
         </section>

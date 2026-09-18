@@ -68,10 +68,12 @@ const FilterChip = ({ children, active, onClick }: FilterChipProps) => {
 
 // FORMAT CATEGORY
 const formatCategory = (category: string) => {
-  return category
+  const result = category
     .split("_")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+  // console.log(":", result);
+  return result;
 };
 
 // FORMAT PAYMENT

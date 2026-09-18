@@ -23,7 +23,7 @@ const Recents = () => {
                 key={item._id}
                 className="bg-white rounded-xl shadow-sm border border-gray-200 p-3 flex justify-between items-start"
               >
-                <div className="flex gap-3">
+                <div className="flex gap-3 items-start">
                   {/* icon  */}
                   <div
                     className={`w-12 h-12 rounded-md flex items-center justify-center text-xl ${
@@ -48,7 +48,7 @@ const Recents = () => {
                 </div>
 
                 {/* Expense Details  */}
-                <section className="px-1 flex flex-col">
+                <div className="px-0.5 flex flex-col">
                   <div
                     className={`flex items-center gap-0.5 font-semibold text-lg ${
                       item.type === "expense"
@@ -57,18 +57,18 @@ const Recents = () => {
                     }`}
                   >
                     <span>{item.type === "expense" ? "-" : "+"}</span>
-                    <span>{item.amount}</span>
+                    <span className="text-xl">{item.amount}</span>
                     <LiaRupeeSignSolid size={20} />
                   </div>
 
                   {/* DELETE Button  */}
                   <button
                     onClick={() => deleteTransaction(item._id, item.amount)}
-                    className="mt-2 p-1 text-xs self-center border border-red-200 rounded-full cursor-pointer"
+                    className="mt-1 p-1 text-xs self-center border border-red-200 rounded-full cursor-pointer"
                   >
                     <TbTrash size={14} color="red" />
                   </button>
-                </section>
+                </div>
               </section>
             );
           })

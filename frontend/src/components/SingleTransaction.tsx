@@ -30,13 +30,13 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
       <>
         <section
           key={_id}
-          className="rounded-md bg-white shadow-sm border border-border-strong px-3 py-2.5 flex justify-between items-center gap-1"
+          className="rounded-md bg-white shadow-sm border border-border-strong px-3 py-2.5 flex justify-between items-start"
         >
           {/* 1.  Details  */}
-          <div className="flex items-start gap-3">
+          <div className="flex items-start gap-4">
             {/* icon  */}
             <div
-              className={`px-4 size-12 rounded-md flex items-center justify-center text-xl ${
+              className={`size-12 rounded-md flex items-center justify-center text-lg ${
                 type === "expense" ? "bg-red-100" : "bg-green-100"
               }`}
             >
@@ -53,12 +53,6 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
                 {new Date(date).toLocaleDateString("en-GB").replace(/\//g, ".")}
               </p>
 
-              {/* <p className="text-sm font-medium text-text-muted">
-                {new Date(createdAt)
-                  .toLocaleDateString("en-GB")
-                  .replace(/\//g, ".")}
-              </p> */}
-
               <p className="my-1 mr-2 pr-4 text-xs text-text-muted text-start">
                 {/* {notes} */}
                 {notes?.trim().split(/\s+/).slice(0, 25).join(" ")}
@@ -68,7 +62,7 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
           </div>
 
           {/* 2. Expense Details  */}
-          <div className="px-1 flex flex-col items-end">
+          <div className="py-1 flex flex-col items-end">
             <div
               className={`flex items-center gap-0.5 font-bold text-xl  ${
                 type === "expense" ? "text-red-600" : "text-green-600"
@@ -82,7 +76,6 @@ const SingleTransaction = ({ transaction }: SingleTransactionProps) => {
                 <LiaRupeeSignSolid size={20} />
               </span>
             </div>
-
             <div className="px-2 whitespace-nowrap text-xs">{paymentLabel}</div>
           </div>
         </section>
